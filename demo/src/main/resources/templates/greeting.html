@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Serving Web Content</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p>Current BR Map is:</p>
+    <p th:text="${AMF.battleRoyale.current.map}"></p>
+    <img th:src="@{String}"/>
+    <p>Next BR Map is:</p>
+    <p th:text="${AMF.battleRoyale.next.map}"></p>
+</body>
+</html>
