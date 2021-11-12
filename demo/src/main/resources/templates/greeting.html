@@ -5,10 +5,23 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
+    <form action="#" th:action="@{/player}" method="GET">
+        <input type="text" placeholder="Search Player" name="name" id="name">
+        <button name="submit" type="submit" value="0">Submit</button>
+    </form>
+
     <p>Current BR Map is:</p>
     <p th:text="${AMF.battleRoyale.current.map}"></p>
-    <img th:src="@{String}"/>
+    <img src="#" th:src="${current}" alt="Current BR Map" style="width:25%;"/>
+    <hr/>
     <p>Next BR Map is:</p>
     <p th:text="${AMF.battleRoyale.next.map}"></p>
+    <img src="#" th:src="${next}" alt="Next BR Map" style="width:25%;"/>
+
+    <p>Current Arena Map is:</p>
+    <p th:text="${currentArena}"></p>
+
+    <p>Next Arena Map is:</p>
+    <p th:text="${nextArena}"></p>
 </body>
 </html>

@@ -1,14 +1,22 @@
-package com.example.demo;
+package com.example.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 //Needed or else error will be thrown for undefined variables (side note: can't be defined in higher up class)
 @JsonIgnoreProperties(ignoreUnknown = true)
-
+@Entity
 public class State {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
     private String map;
     private String remainingTimer;
 

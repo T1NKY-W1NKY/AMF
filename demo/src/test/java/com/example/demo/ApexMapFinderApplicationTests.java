@@ -10,4 +10,8 @@ class ApexMapFinderApplicationTests {
 	void contextLoads() {
 	}
 
+	@Test
+	void getAmf_returnPopulatedAmfObject(){
+
+	}
 }

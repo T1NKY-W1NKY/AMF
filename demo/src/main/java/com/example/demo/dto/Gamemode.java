@@ -1,14 +1,17 @@
-package com.example.demo;
+package com.example.demo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import javax.persistence.*;
 
+@Entity
 public class Gamemode {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
+    @OneToOne
     private State current;
+    @OneToOne
     private State next;
-
 
     public Gamemode() {
     }

@@ -1,19 +1,27 @@
-package com.example.demo;
+package com.example.demo.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.example.demo.dto.Gamemode;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+import javax.persistence.*;
+
+@Entity
 //AMF (ApexMapFinder)
 public class AMF {
 
+    //created id value for mysql to generate
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer amfId;
     @JsonProperty("battle_royale")
+    @OneToOne
     private Gamemode battleRoyale;
+    @OneToOne
     private Gamemode arenas;
+    @OneToOne
     private Gamemode ranked;
+    @OneToOne
     private Gamemode arenasRanked;
 
     public Gamemode getRanked() {
