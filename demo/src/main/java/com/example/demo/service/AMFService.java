@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import com.example.demo.dao.AMFRepository;
 import com.example.demo.dao.AMFSQLDAO;
 import com.example.demo.dto.AMF;
 import com.example.demo.dto.Player;
@@ -16,8 +15,8 @@ import java.util.HashMap;
 public class AMFService {
 
     //Creates single, null amf object and gets json payload to be read for amf obj
-//    @Autowired
-//    private AMFSQLDAO amfDAO;
+    @Autowired
+    private AMFSQLDAO amfDAO;
     private AMF amf = null;
     WebClient webClient = WebClient.create();
     String jsonString = webClient.get()
@@ -32,6 +31,7 @@ public class AMFService {
         ObjectMapper mapper = new ObjectMapper();
         try {
             amf = mapper.readValue(jsonString, AMF.class);
+            amfDAO.save(amf);
         } catch (JsonProcessingException jsonProcessingException) {
             jsonProcessingException.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class AMFService {
         }
 
         //default image b/c i dont have all the maps in the hashmap
-        String mapImage = "dogOverFence.jpg";
+        String mapImage = "placeholder.jpg";
 
         //Create a hashmap where (k) is map name and (v) is image location
         HashMap<String, String> mapImages = new HashMap<>();
@@ -92,7 +92,7 @@ public class AMFService {
         } catch (JsonProcessingException jsonProcessingException) {
             jsonProcessingException.printStackTrace();
         }
-        /* Is there a cleaner way to all this?? **************************************************/
+        /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ ***************************************************/
 
         return player;
     }
