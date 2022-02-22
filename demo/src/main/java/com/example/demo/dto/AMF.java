@@ -1,14 +1,11 @@
 package com.example.demo.dto;
 
 import com.example.demo.dto.Gamemode;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-//added jsonignore because it was saying there was a 'current' field obstructing mapping, could be the id value acting up
 @Entity
 //AMF (ApexMapFinder)
 public class AMF {
@@ -18,13 +15,13 @@ public class AMF {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer amfId;
     @JsonProperty("battle_royale")
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private Gamemode battleRoyale;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private Gamemode arenas;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private Gamemode ranked;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private Gamemode arenasRanked;
 
     public Gamemode getRanked() {

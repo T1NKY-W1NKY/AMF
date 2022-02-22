@@ -8,9 +8,9 @@ public class Gamemode {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private State current;
-    @OneToOne(cascade = {CascadeType.ALL})
+    @OneToOne
     private State next;
 
     public Gamemode() {

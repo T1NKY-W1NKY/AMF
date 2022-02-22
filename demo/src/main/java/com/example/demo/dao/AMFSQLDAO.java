@@ -17,9 +17,8 @@ public class AMFSQLDAO {
         return amfRepository.findById(0).get();
     }
 
-    public AMF save(AMF amf){
+    public AMF saveAMF(AMF amf){
         AMF savedAMF = amfRepository.save(amf);
         return savedAMF;
     }
-    //miggle moggle
 }
