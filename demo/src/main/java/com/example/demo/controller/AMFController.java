@@ -3,7 +3,6 @@ package com.example.demo.controller;
 import com.example.demo.dto.AMF;
 import com.example.demo.dto.Player;
 import com.example.demo.service.AMFService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
