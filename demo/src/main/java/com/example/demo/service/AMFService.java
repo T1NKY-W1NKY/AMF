@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import javax.transaction.Transactional;
 import java.util.HashMap;
 
 @Service
@@ -36,6 +37,17 @@ public class AMFService {
             jsonProcessingException.printStackTrace();
         }
         return amf;
+    }
+
+    //need case for when newAmf returns null
+    public AMF updateAmf(){
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            amf = mapper.readValue(jsonString, AMF.class);
+        } catch (JsonProcessingException jsonProcessingException) {
+            jsonProcessingException.printStackTrace();
+        }
+        return amfDAO.update(4, amf);
     }
 
     //TODO: add functionality for arenas or br?
