@@ -3,8 +3,11 @@ package com.example.demo.service;
 import com.example.demo.dao.AMFSQLDAO;
 import com.example.demo.dto.AMF;
 import com.example.demo.dto.Player;
+import com.example.demo.other.DynamicSchedulingConfig;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -19,6 +22,7 @@ import java.util.*;
 @Service
 public class AMFService {
 
+    private static final Logger log = LoggerFactory.getLogger(DynamicSchedulingConfig.class);
 
     @Autowired
     private AMFSQLDAO amfDAO;
@@ -146,7 +150,7 @@ public class AMFService {
                 lowestTime = timeInSeconds.get(i);
             }
         }
-        System.out.println(timeInSeconds);
+        log.info(String.valueOf(timeInSeconds));
         //* 1000 to go to milliseconds from seconds
         return lowestTime * 1000;
     }

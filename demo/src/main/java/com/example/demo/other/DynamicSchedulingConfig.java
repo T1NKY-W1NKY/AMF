@@ -1,6 +1,8 @@
 package com.example.demo.other;
 
 import com.example.demo.service.AMFService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,6 +23,7 @@ import java.util.concurrent.Executors;
 @EnableScheduling
 public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
+    private static final Logger log = LoggerFactory.getLogger(DynamicSchedulingConfig.class);
     @Autowired
     private AMFService amfService;
 
@@ -54,7 +57,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
 //                            nextExecutionTime = lastCompletionTime.orElseGet(Date::new).toInstant()
 //                                    .plusMillis(amfService.getNextMapTime());
-                        System.out.println("Time until next execution: " + epochTime);
+                        log.info("Time until next execution: " + epochTime);
 
                         return Date.from(nextExecutionTime);
                     }
