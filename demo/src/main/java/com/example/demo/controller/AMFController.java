@@ -19,13 +19,13 @@ public class AMFController {
     @GetMapping("/amf")
     @ResponseBody
     public AMF amf(){
-        return amfService.getAmf();
+        return amfService.getAMF();
     }
 
     //test for returning an html response
     @GetMapping("/")
     public String index(Model model) {
-        AMF amfPOJO = amfService.getAmf();
+        AMF amfPOJO = amfService.getAMF();
         String currentBRImg = amfService.getMapImage("current");
         String nextBRImg = amfService.getMapImage("next");
         String currentArenaImg = amfPOJO.getArenas().getCurrent().getMap();

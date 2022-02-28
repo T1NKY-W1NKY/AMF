@@ -39,14 +39,15 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                 new Runnable() {
                     @Override
                     public void run() {
-                        amfService.updateAmf();
+                        log.info("Attempting to update AMF...\n");
+                        amfService.updateAMF();
+                        log.info("Updated AMF: " + amfService.getAMF().toString());
                     }
                 },
                 new Trigger() {
                     @Override
                     public Date nextExecutionTime(TriggerContext context) {
-                        Optional<Date> lastCompletionTime =
-                                Optional.ofNullable(context.lastCompletionTime());
+
                         Long epochTime = null;
                         try {
                             epochTime = amfService.getNextMapTime() + System.currentTimeMillis();
@@ -54,10 +55,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             e.printStackTrace();
                         }
                         Instant nextExecutionTime = Instant.ofEpochMilli(epochTime);
-
-//                            nextExecutionTime = lastCompletionTime.orElseGet(Date::new).toInstant()
-//                                    .plusMillis(amfService.getNextMapTime());
-                        log.info("Time until next execution: " + epochTime);
+                        log.info("Next Execution: " + (Date.from(nextExecutionTime)) + " | " + epochTime);
 
                         return Date.from(nextExecutionTime);
                     }
