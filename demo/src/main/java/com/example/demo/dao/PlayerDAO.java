@@ -4,6 +4,7 @@ import com.example.demo.dto.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,11 +45,13 @@ public class PlayerDAO {
         return null;
     }
 
-//    //add functionality for either a player id or name to update given player with new one or something
-//    @Transactional
-//    public Player updatePlayer(Player player){
-//        return playerRepository.(player).get();
-//    }
+    //add functionality for either a player id or name to update given player with new one or something
+    @Transactional
+    public Player updatePlayer(int id, Player updatedPlayer){
+        Player player = playerRepository.findById(id).get();
+        player.setGlobal(updatedPlayer.getGlobal());
+        return player;
+    }
 
     public List<Player> getAllPlayers(){
         List<Player> allPlayers = new ArrayList<>();

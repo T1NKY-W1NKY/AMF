@@ -128,7 +128,28 @@ public class AMFService {
 
     }
 
+    public List<Player> updateAllPlayers(){
+        List<Player> allPlayers = playerDAO.getAllPlayers();
 
+        for(Player player : allPlayers){
+            String playerJson = webClient.get()
+                    .uri("https://api.mozambiquehe.re/bridge?version=5&platform=PC&player=" + player.getGlobal().getName() + "&auth=XxaZO6hTfymkQoBqNqlg")
+                    .exchange()
+                    .block()
+                    .bodyToMono(String.class)
+                    .block();
+            Player updatedPlayer = null;
+            ObjectMapper mapper = new ObjectMapper();
+            try {
+                updatedPlayer = mapper.readValue(playerJson, Player.class);
+            } catch (JsonProcessingException jsonProcessingException) {
+                jsonProcessingException.printStackTrace();
+            }
+            playerDAO.updatePlayer(player.getPlayerId(), updatedPlayer);
+        }
+
+        return allPlayers;
+    }
 
     public long timeToSeconds(String time) throws ParseException {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
