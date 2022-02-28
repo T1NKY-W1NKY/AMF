@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import com.example.demo.dao.AMFSQLDAO;
+import com.example.demo.dao.PlayerDAO;
 import com.example.demo.dto.AMF;
 import com.example.demo.dto.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +23,8 @@ public class AMFService {
 
     @Autowired
     private AMFSQLDAO amfDAO;
+    @Autowired
+    private PlayerDAO playerDAO;
     private AMF amf = null;
     WebClient webClient = WebClient.create();
     private static final Logger log = LoggerFactory.getLogger(AMFService.class);
@@ -95,6 +98,16 @@ public class AMFService {
 
     //split to updatePlayer & getPlayer
     public Player getPlayer(String name){
+        return playerDAO.findByPlayerName(name);
+    }
+
+    public List<Player>  getAllPlayers(){
+        return playerDAO.getAllPlayers();
+    }
+
+
+    //does this method save a new player or update an existing one?
+    public Player updatePlayer(String name){
 
         //Look into httpclient instead of webclient | https://www.baeldung.com/httpclient4
         String playerJson = webClient.get()
@@ -111,7 +124,8 @@ public class AMFService {
             jsonProcessingException.printStackTrace();
         }
 
-        return player;
+        return playerDAO.savePlayer(player);
+
     }
 
 

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 //not @RestController b/c then getGreeting would return String "greeting"
 @Controller
 public class AMFController {
@@ -43,9 +45,13 @@ public class AMFController {
     @GetMapping("/player")
     @ResponseBody
     public Player getPlayer(@RequestParam String name) {
-        Player player = amfService.getPlayer(name);
-        return player;
+        return amfService.getPlayer(name);
     }
 
+    @GetMapping("/players")
+    @ResponseBody
+    public List<Player> getAllPlayers() {
+        return amfService.getAllPlayers();
+    }
 
 }
