@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.dto.Global;
 import com.example.demo.dto.Player;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -45,11 +46,24 @@ public class PlayerDAO {
         return null;
     }
 
-    //add functionality for either a player id or name to update given player with new one or something
+    //TODO: add functionality for either a player id or name to update given player with new one
     @Transactional
     public Player updatePlayer(int id, Player updatedPlayer){
         Player player = playerRepository.findById(id).get();
-        player.setGlobal(updatedPlayer.getGlobal());
+        Global global = player.getGlobal();
+        Global updatedGlobal = updatedPlayer.getGlobal();
+        global.setLevel(updatedGlobal.getLevel());
+        global.setName(updatedGlobal.getName());
+        global.setPlatform(updatedGlobal.getPlatform());
+        return player;
+    }
+    public Player updatePlayer(String name, Player updatedPlayer){
+        Player player = findByPlayerName(name);
+        Global global = player.getGlobal();
+        Global updatedGlobal = updatedPlayer.getGlobal();
+        global.setLevel(updatedGlobal.getLevel());
+        global.setName(updatedGlobal.getName());
+        global.setPlatform(updatedGlobal.getPlatform());
         return player;
     }
 
