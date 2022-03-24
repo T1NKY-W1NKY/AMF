@@ -1,0 +1,45 @@
+[1mdiff --git a/.idea/dbnavigator.xml b/.idea/dbnavigator.xml[m
+[1mindex 8b38e20..17f7bea 100644[m
+[1m--- a/.idea/dbnavigator.xml[m
+[1m+++ b/.idea/dbnavigator.xml[m
+[36m@@ -2,7 +2,7 @@[m
+ <project version="4">[m
+   <component name="DBNavigator.Project.DataEditorManager">[m
+     <record-view-column-sorting-type value="BY_INDEX" />[m
+[31m-    <value-preview-text-wrapping value="true" />[m
+[32m+[m[32m    <value-preview-text-wrapping value="false" />[m
+     <value-preview-pinned value="false" />[m
+   </component>[m
+   <component name="DBNavigator.Project.DataExportManager">[m
+[36m@@ -50,6 +50,9 @@[m
+     <last-used-operator value="EQUAL" />[m
+     <filters />[m
+   </component>[m
+[32m+[m[32m  <component name="DBNavigator.Project.ParserDiagnosticsManager">[m
+[32m+[m[32m    <diagnostics-history />[m
+[32m+[m[32m  </component>[m
+   <component name="DBNavigator.Project.ScriptExecutionManager" clear-outputs="true">[m
+     <recently-used-interfaces />[m
+   </component>[m
+[1mdiff --git a/demo/src/main/java/com/example/demo/dao/AMFSQLDAO.java b/demo/src/main/java/com/example/demo/dao/AMFSQLDAO.java[m
+[1mindex faa8795..188c97b 100644[m
+[1m--- a/demo/src/main/java/com/example/demo/dao/AMFSQLDAO.java[m
+[1m+++ b/demo/src/main/java/com/example/demo/dao/AMFSQLDAO.java[m
+[36m@@ -15,7 +15,7 @@[m [mpublic class AMFSQLDAO {[m
+ //    gets amf object with id 4, all working amf entities from now all will be using 4 until that gets cleaned up[m
+ //        this is b/c there should only be one amf object and 4 just happened to be first seen amf id in db[m
+     public AMF getAMF(){[m
+[31m-        return amfRepository.findById(4).get();[m
+[32m+[m[32m        return amfRepository.findById(1).get();[m
+     }[m
+ [m
+     public AMF save(AMF amf){[m
+[36m@@ -26,7 +26,7 @@[m [mpublic class AMFSQLDAO {[m
+     //need annotation to know it is updating entity for some reason, do not need to .save() the object then[m
+     @Transactional[m
+     public AMF updateAMF(AMF amf){[m
+[31m-        AMF updateAmf = amfRepository.findById(4).get();[m
+[32m+[m[32m        AMF updateAmf = amfRepository.findById(1).get();[m
+         //cant just = to new amf object, have to change all the setters otherwise im guessing the id just gets overwritten[m
+         updateAmf.setArenas(amf.getArenas());[m
+         updateAmf.setArenasRanked(amf.getArenasRanked());[m
