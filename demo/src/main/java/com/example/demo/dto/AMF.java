@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 //added jsonignore because it was saying there was a 'current' field obstructing mapping, could be the id value acting up
@@ -62,6 +64,24 @@ public class AMF {
         this.arenas = arenas;
     }
 
+//    public List<Gamemode> getGamemodes(){
+//        List<Gamemode> gamemodes = new ArrayList<>();
+//        gamemodes.add(getArenasRanked());
+//        gamemodes.add(getArenas());
+//        gamemodes.add(getBattleRoyale());
+//        gamemodes.add(getRanked());
+//        return gamemodes;
+//    }
+//
+//    public List<State> getStates(){
+//        List<State> states = new ArrayList<>();
+//        List<Gamemode> gamemodes = getGamemodes();
+//        for(Gamemode gamemode: gamemodes){
+//            states.add(gamemode.getCurrent());
+//            states.add(gamemode.getNext());
+//        }
+//        return states;
+//    }
     @Override
     public String toString() {
         return "AMF{" +

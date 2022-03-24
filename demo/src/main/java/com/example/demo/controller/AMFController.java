@@ -21,7 +21,8 @@ public class AMFController {
     @GetMapping("/amf")
     @ResponseBody
     public AMF amf(){
-        return amfService.getAMF();
+        AMF amf = amfService.getAMF();
+        return amf;
     }
 
     //test for returning an html response
