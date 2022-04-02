@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 //not @RestController b/c then getGreeting would return String "greeting"
@@ -29,10 +30,11 @@ public class AMFController {
     @GetMapping("/")
     public String index(Model model) {
         AMF amfPOJO = amfService.getAMF();
-        String currentBRImg = amfService.getMapImage("current");
-        String nextBRImg = amfService.getMapImage("next");
+        String currentBRImg = amfService.getMapImage("current", "battleRoyale");
+        String nextBRImg = amfService.getMapImage("next", "battleRoyale");
         String currentArenaImg = amfPOJO.getArenas().getCurrent().getMap();
         String nextArenaImg = amfPOJO.getArenas().getNext().getMap();
+
         model.addAttribute(amfPOJO);
         model.addAttribute("current", currentBRImg);
         model.addAttribute("next", nextBRImg);
@@ -40,6 +42,26 @@ public class AMFController {
         model.addAttribute("nextArena", nextArenaImg);
 
         return "greeting";
+    }
+
+    @GetMapping("/test")
+    public String test(Model model) throws ParseException {
+        AMF amf = amfService.getAMF();
+        List<Long> mapTimes = amfService.getMapTimes();
+
+        model.addAttribute("amf", amf);
+        model.addAttribute("currentBR", amfService.getMapImage("current", "battleRoyale"));
+        model.addAttribute("nextBR", amfService.getMapImage("next", "battleRoyale"));
+        model.addAttribute("currentArena", amfService.getMapImage("current", "arenas"));
+        model.addAttribute("nextArena", amfService.getMapImage("next", "arenas"));
+        model.addAttribute("currentRanked", amfService.getMapImage("current", "ranked"));
+        model.addAttribute("currentArenaRanked", amfService.getMapImage("current", "arenaRanked"));
+        model.addAttribute("nextArenaRanked", amfService.getMapImage("next", "arenaRanked"));
+        model.addAttribute("arenasTimer", mapTimes.get(0));
+        model.addAttribute("arenasRankedTimer", mapTimes.get(1));
+        model.addAttribute("battleRoyaleTimer", mapTimes.get(2));
+
+        return "bootstart";
     }
 
     //mapping for returning json with certain player data

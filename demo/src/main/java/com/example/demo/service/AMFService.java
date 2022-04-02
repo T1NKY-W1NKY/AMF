@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dao.AMFSQLDAO;
 import com.example.demo.dao.PlayerDAO;
 import com.example.demo.dto.AMF;
+import com.example.demo.dto.Gamemode;
 import com.example.demo.dto.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,16 +62,30 @@ public class AMFService {
     //TODO: add functionality for arenas or br?
     //returns string of image address for the current or next BATTLE_ROYALE map (specified)
     //state = current / next
-    public String getMapImage(String state){
+    public String getMapImage(String state, String mode){
         //could be a problem if amf object is never created since getAmf needs to be called for it to be populated
         String map;
+        Gamemode gamemode;
+        if(mode.equalsIgnoreCase("arenas")){
+            gamemode = amf.getArenas();
+        }
+        else if(mode.equalsIgnoreCase("battleRoyale")){
+            gamemode = amf.getBattleRoyale();
+        }
+        else if(mode.equalsIgnoreCase("ranked")){
+            gamemode = amf.getRanked();
+        }
+        else {
+            gamemode = amf.getArenasRanked();
+        }
+
 
         //does not cover if string equals anything besides current/next
         if(state.equalsIgnoreCase("current")) {
-            map = amf.getBattleRoyale().getCurrent().getMap();
+            map = gamemode.getCurrent().getMap();
         }
         else {
-            map = amf.getBattleRoyale().getNext().getMap();
+            map = gamemode.getNext().getMap();
         }
 
         //default image in case map image not found
@@ -84,6 +99,10 @@ public class AMFService {
         mapImages.put("Party Crasher","partyCrasher.jpg");
         mapImages.put("Phase runner","phaseRunner.jpg");
         mapImages.put("World's Edge","worldsEdge.jpg");
+        mapImages.put("Habitat", "habitat.jpg");
+        mapImages.put("Storm Point", "stormPoint.png");
+        mapImages.put("Drop Off", "dropOff2.jpg");
+        mapImages.put("Encore", "encore.jpg");
 
         //loop through hashmap to find specified map in it
         for(var entry: mapImages.entrySet()){
@@ -159,20 +178,26 @@ public class AMFService {
         return seconds;
     }
 
-
-
-    public Long getNextMapTime() throws ParseException {
+    //returns list of map times in raw seconds in set order: 0-Arenas, 1-ArenasRanked, 2-BattleRoyale
+    public List<Long> getMapTimes() throws ParseException {
         AMF amf = amfDAO.getAMF();
         List<Long> timeInSeconds = new ArrayList<>();
         List<String> remainingTimes = new ArrayList<>();
 
+        //get map timers in HH:MM:SS
         remainingTimes.add(amf.getArenas().getCurrent().getRemainingTimer());
         remainingTimes.add(amf.getArenasRanked().getCurrent().getRemainingTimer());
         remainingTimes.add(amf.getBattleRoyale().getCurrent().getRemainingTimer());
 
+        //change timer to seconds
         for (int i = 0; i < remainingTimes.size(); i++) {
             timeInSeconds.add(timeToSeconds(remainingTimes.get(i)));
         }
+        return timeInSeconds;
+    }
+
+    public Long getNextMapTime(List<Long> timeInSeconds) {
+
         long lowestTime = timeInSeconds.get(0);
         for (int i = 1; i < timeInSeconds.size(); i++) {
             if (timeInSeconds.get(i) < lowestTime) {

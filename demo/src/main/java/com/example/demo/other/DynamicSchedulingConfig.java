@@ -57,7 +57,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
                         Long epochTime = null;
                         try {
-                            epochTime = amfService.getNextMapTime() + System.currentTimeMillis();
+                            epochTime = amfService.getNextMapTime(amfService.getMapTimes()) + System.currentTimeMillis();
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
