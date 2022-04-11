@@ -61,7 +61,7 @@ public class AMFController {
         model.addAttribute("arenasRankedTimer", mapTimes.get(1));
         model.addAttribute("battleRoyaleTimer", mapTimes.get(2));
 
-        return "bootstart";
+        return "bootstartjs";
     }
 
     //mapping for returning json with certain player data

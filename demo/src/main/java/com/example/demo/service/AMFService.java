@@ -29,6 +29,7 @@ public class AMFService {
     private AMF amf = null;
     WebClient webClient = WebClient.create();
     private static final Logger log = LoggerFactory.getLogger(AMFService.class);
+    List<Long> endTimer = Arrays.asList(0L,0L,0L);
 
 
     //returns amf from db
@@ -213,5 +214,9 @@ public class AMFService {
 
         //* 1000 to go to milliseconds from seconds
         return (lowestTime + roundUp) * 1000;
+    }
+
+    public void decrementCountdown(){
+
     }
 }
