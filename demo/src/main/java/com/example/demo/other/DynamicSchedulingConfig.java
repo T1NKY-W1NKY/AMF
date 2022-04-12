@@ -37,30 +37,10 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     }
 
     //method to create active countdown timer for maps
-//    @Scheduled(fixedDelay = 1000)
-//    public void countdownTimer() {
-//
-//        for(int i = 0; i < endTimer.size(); i++){
-//
-//            //checks to see if timer data needs to be updated
-//            if(endTimer.get(i) <= 0){
-//                //updates countdown timer NOTE:
-//                //ONLY EFFECTIVE FIRST CALL, THEN REDUNDANT SINCE TASK THAT UPDATES AMF REFRESHES ENDTIMER AS WELL
-//                try {
-//                    endTimer = amfService.getMapTimes();
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//            //counts down timer
-//            else{
-//                long decrement = endTimer.get(i) - 1;
-//                endTimer.set(i, decrement);
-//                System.out.println(endTimer.get(i));
-//                System.out.println(amfService.stinkyFeet);
-//            }
-//        }
-//    }
+    @Scheduled(fixedDelay = 1000)
+    public void countdownTimer() {
+        amfService.decrementCountdown();
+    }
 
     @Bean
     public Executor taskExecutor() {
@@ -79,11 +59,11 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                         log.info("Updated AMF: " + amfService.getAMF().toString());
 
                         //updates timer countdown data
-//                        try {
-//                            endTimer = amfService.getMapTimes();
-//                        } catch (ParseException e) {
-//                            e.printStackTrace();
-//                        }
+                        try {
+                            amfService.setEndTimer();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Trigger() {

@@ -18,22 +18,45 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark">
-  <div class="container-fluid">
-    <a class="navbar-brand">Apex Map Finder&trade;</a>
-    <form class="d-flex" action="#" th:action="@{/player}" method="GET">
-      <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search Player"
-              aria-label="Search"
-              name="name"
-              id="name"
-
-      />
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <a class="navbar-brand ms-3">Apex Map Finder&trade;</a>
+  <button
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" th:href="@{/}"
+        >Home</a
+        >
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="@{/test}">Maps <span class="visually-hidden">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Competitive (WIP)</a>
+      </li>
+    </ul>
   </div>
+  <form class="d-flex me-3" th:action="@{/player}" method="GET">
+    <input
+            class="form-control me-2"
+            type="search"
+            placeholder="Search Player"
+            aria-label="Search"
+            name="name"
+            id="name"
+    />
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form>
 </nav>
 
 <section id="casual">
@@ -76,6 +99,12 @@
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // Output the result in an element with id="battleRoyale"
+                if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
         document.getElementById("battleRoyale").innerHTML =
           brMapName + " - " + hours + ":" + minutes + ":" + seconds;
 
@@ -108,6 +137,12 @@
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // Output the result in an element with id="arenas"
+                if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
         document.getElementById("arenas").innerHTML =
           arenaMapName + " - " + hours + ":" + minutes + ":" + seconds;
 
@@ -157,6 +192,12 @@
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // Output the result in an element with id="arenasRanked"
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
         document.getElementById("arenasRanked").innerHTML =
           arenasRankedMapName + " - " + hours + ":" + minutes + ":" + seconds;
 

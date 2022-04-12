@@ -29,7 +29,8 @@ public class AMFService {
     private AMF amf = null;
     WebClient webClient = WebClient.create();
     private static final Logger log = LoggerFactory.getLogger(AMFService.class);
-    List<Long> endTimer = Arrays.asList(0L,0L,0L);
+    HashMap<String, Long> endTimer = new HashMap<>();
+
 
 
     //returns amf from db
@@ -37,7 +38,9 @@ public class AMFService {
         return amfDAO.getAMF();
     }
 
-
+    public HashMap<String, Long> getEndTimer() {
+        return endTimer;
+    }
 
     //Maps json response to null amf obj in service class (should already have amf object defined before method?)
     //need case for when newAmf returns null orrrrrrrr maybe not
@@ -58,7 +61,12 @@ public class AMFService {
         return amfDAO.updateAMF(amf);
     }
 
-
+    @PostConstruct
+    public void setEndTimer() throws ParseException {
+        endTimer.put("battleRoyale", timeToSeconds(amfDAO.getAMF().getBattleRoyale().getCurrent().getRemainingTimer()));
+        endTimer.put("arenas", timeToSeconds(amfDAO.getAMF().getArenas().getCurrent().getRemainingTimer()));
+        endTimer.put("arenasRanked", timeToSeconds(amfDAO.getAMF().getArenasRanked().getCurrent().getRemainingTimer()));
+    }
 
     //TODO: add functionality for arenas or br?
     //returns string of image address for the current or next BATTLE_ROYALE map (specified)
@@ -217,6 +225,6 @@ public class AMFService {
     }
 
     public void decrementCountdown(){
-
+        endTimer.replaceAll((k, v) -> v - 1);
     }
 }
