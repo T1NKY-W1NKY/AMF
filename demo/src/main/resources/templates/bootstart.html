@@ -62,6 +62,17 @@
     <section id="casual">
       <div class="container-lg my-5 bg-dark">
         <div class="row justify-content-center">
+          <div class="col-md-3">
+            <h3 class="lead text-center text-light fw-bold">Battle Royale</h3>
+          </div>
+          <div class="col-md-6">
+            <h3 class="text-center text-light fw-bold">Casual</h3>
+          </div>
+          <div class="col-md-3">
+            <h3 class="lead text-center text-light fw-bold">Arenas</h3>
+          </div>
+        </div>
+        <div class="row justify-content-center">
           <div class="col-md-6">
             <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentBR}" alt="BR Image"/>
             <p class="lead text-center text-light fw-bold" th:text="${amf.battleRoyale.current.map} + ' - ' + ${amf.battleRoyale.current.remainingTimer}"></p>

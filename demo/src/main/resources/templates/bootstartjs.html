@@ -60,17 +60,32 @@
 </nav>
 
 <section id="casual">
-  <div class="container-lg my-5 bg-dark">
+  <div class="container-lg my-5 bg-dark rounded">
+    <div class="row justify-content-center border-bottom border-5 border-color" style="border-color: #181a1b !important;">
+      <!-- #181a1b | Color used on border to match background of body -->
+      <div class="col-md-5 d-none d-md-block">
+        <h3 class="text-center text-light fw-bold my-3">Battle Royale</h3>
+      </div>
+      <div class="col-md-2">
+        <h1 class="text-center text-light fw-bold my-2">Casual</h1>
+      </div>
+      <div class="col-md-5 d-none d-md-block">
+        <h3 class="text-center text-light fw-bold my-3">Arenas</h3>
+      </div>
+
+    </div>
     <div class="row justify-content-center">
       <div class="col-md-6">
         <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentBR}" alt="BR Image"/>
+        <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
         <!--            <p class="lead text-center text-light fw-bold" th:text="${amf.battleRoyale.current.map} + ' - ' + ${amf.battleRoyale.current.remainingTimer}"></p>-->
-        <p id="battleRoyale" class="lead text-center text-light fw-bold"></p>
+        <p id="battleRoyale" class="lead text-center text-light fw-bold mt-2"></p>
       </div>
       <div class="col-md-6">
         <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentArena}" alt="Arenas Image"/>
+        <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
         <!--            <p class="lead text-center text-light fw-bold" th:text="${amf.arenas.current.map} + ' - ' +${amf.arenas.current.remainingTimer}"></p>-->
-        <p id="arenas" class="lead text-center text-light fw-bold"></p>
+        <p id="arenas" class="lead text-center text-light fw-bold mt-2"></p>
       </div>
     </div>
   </div>
@@ -112,9 +127,9 @@
         if (distance < 0) {
           location.reload();
         }
-      }, 500);
+      }, 100);
     </script>
-<script th:inline="javascript">
+    <script th:inline="javascript">
       // Set the date we're counting down to
       var arenaTimer = [[${arenasTimer}]];
       var arenaMapName = [[${amf.arenas.current.map}]];
@@ -150,20 +165,34 @@
         if (distance < 0) {
           setTimeout(location.reload(), 10000);
         }
-      }, 500);
+      }, 100);
     </script>
 
 <section id="competitive">
-  <div class="container-lg my-5 bg-dark">
+  <div class="container-lg my-5 bg-dark rounded">
+    <div class="row justify-content-center">
+      <div class="col-md">
+        <h1 class="text-center text-light fw-bold">Competitive</h1>
+      </div>
+    </div>
+    <div class="row justify-content-center border-bottom border-5 border-danger">
+      <div class="col-md-6 d-none d-md-block">
+        <h3 class="text-center text-light fw-bold">Battle Royale</h3>
+      </div>
+      <div class="col-md-6 d-none d-md-block">
+        <h3 class="text-center text-light fw-bold">Arenas</h3>
+      </div>
+    </div>
     <div class="row justify-content-center">
       <div class="col-md-6">
         <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentRanked}" alt="BR Ranked Image"/>
-        <p class="lead text-center text-light fw-bold" th:text="${amf.ranked.current.map} + ' - ' +${amf.ranked.current.remainingTimer}"></p>
+        <p class="lead text-center text-light fw-bold mt-2" th:text="${amf.ranked.current.map}"></p>
       </div>
       <div class="col-md-6">
         <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentArenaRanked}" alt="Arenas Ranked Image"/>
+        <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
         <!--            <p class="lead text-center text-light fw-bold" th:text="${amf.arenasRanked.current.map} + ' - ' +${amf.arenasRanked.current.remainingTimer}"></p>-->
-        <p id="arenasRanked" class="lead text-center text-light fw-bold"></p>
+        <p id="arenasRanked" class="lead text-center text-light fw-bold mt-2"></p>
       </div>
     </div>
   </div>
@@ -205,7 +234,7 @@
         if (distance < 0) {
           setTimeout(location.reload(), 10000);
         }
-      }, 500);
+      }, 100);
     </script>
 
 <!-- Footer -->
