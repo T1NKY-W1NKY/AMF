@@ -91,83 +91,6 @@
   </div>
 </section>
 
-<script th:inline="javascript">
-      // Set the date we're counting down to
-      var brTimer = [[${battleRoyaleTimer}]];
-      var brMapName = [[${amf.battleRoyale.current.map}]];
-      var countDownDateBR =
-        new Date().getTime() + brTimer * 1000;
-
-      // Update the count down every 1 second
-      var x = setInterval(function () {
-        // Get today's date and time
-        var now = new Date().getTime();
-
-        // Find the distance between now and the count down date
-        var distance = countDownDateBR - now;
-
-        // Time calculations for days, hours, minutes and seconds
-        var hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Output the result in an element with id="battleRoyale"
-                if (minutes < 10) {
-          minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-          seconds = "0" + seconds;
-        }
-        document.getElementById("battleRoyale").innerHTML =
-          brMapName + " - " + hours + ":" + minutes + ":" + seconds;
-
-        // If the count down is over, reload page
-        if (distance < 0) {
-          location.reload();
-        }
-      }, 100);
-    </script>
-    <script th:inline="javascript">
-      // Set the date we're counting down to
-      var arenaTimer = [[${arenasTimer}]];
-      var arenaMapName = [[${amf.arenas.current.map}]];
-      var countDownDateArenas =
-        new Date().getTime() + arenaTimer * 1000;
-
-      // Update the count down every 1 second
-      var x = setInterval(function () {
-        // Get today's date and time
-        var now = new Date().getTime();
-
-        // Find the distance between now and the count down date
-        var distance = countDownDateArenas - now;
-
-        // Time calculations for days, hours, minutes and seconds
-        var hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Output the result in an element with id="arenas"
-                if (minutes < 10) {
-          minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-          seconds = "0" + seconds;
-        }
-        document.getElementById("arenas").innerHTML =
-          arenaMapName + " - " + hours + ":" + minutes + ":" + seconds;
-
-        // If the count down is over, reload page
-        if (distance < 0) {
-          setTimeout(location.reload(), 10000);
-        }
-      }, 100);
-    </script>
-
 <section id="competitive">
   <div class="container-lg my-5 bg-dark rounded">
     <div class="row justify-content-center">
@@ -197,45 +120,6 @@
     </div>
   </div>
 </section>
-
-<script th:inline="javascript">
-      // Set the date we're counting down to
-      var arenasRankedTimer = [[${arenasRankedTimer}]];
-      var arenasRankedMapName = [[${amf.arenasRanked.current.map}]];
-      var countDownDateArenasRanked =
-        new Date().getTime() + arenasRankedTimer * 1000;
-
-      // Update the count down every 1 second
-      var x = setInterval(function () {
-        // Get today's date and time
-        var now = new Date().getTime();
-
-        // Find the distance between now and the count down date
-        var distance = countDownDateArenasRanked - now;
-
-        // Time calculations for days, hours, minutes and seconds
-        var hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        // Output the result in an element with id="arenasRanked"
-        if (minutes < 10) {
-          minutes = "0" + minutes;
-        }
-        if (seconds < 10) {
-          seconds = "0" + seconds;
-        }
-        document.getElementById("arenasRanked").innerHTML =
-          arenasRankedMapName + " - " + hours + ":" + minutes + ":" + seconds;
-
-        // If the count down is over, reload page
-        if (distance < 0) {
-          setTimeout(location.reload(), 10000);
-        }
-      }, 100);
-    </script>
 
 <!-- Footer -->
 <div class="container my-5 bottom-50">
@@ -360,7 +244,70 @@
   </footer>
 </div>
 <!-- End of footer -->
+<script>
+      // Set the dates we're counting down to
+      var brTimer = [[${battleRoyaleTimer}]];
+      var brMapName = "[[${amf.battleRoyale.current.map}]]";
+      var countdownDateBR =
+        new Date().getTime() + brTimer * 1000;
 
+      var arenaTimer = [[${arenasTimer}]];
+      var arenaMapName = "[[${amf.arenas.current.map}]]";
+      var countdownDateArenas =
+        new Date().getTime() + arenaTimer * 1000;
+
+      var arenasRankedTimer = [[${arenasRankedTimer}]];
+      var arenasRankedMapName = "[[${amf.arenasRanked.current.map}]]";
+      var countdownDateArenasRanked =
+        new Date().getTime() + arenasRankedTimer * 1000;
+
+      function timerFunction(mapName, countdownDate) {
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countdownDate - now;
+
+        // If the count down is over, reload page
+        if (distance < 0) {
+          location.reload();
+        }
+
+        // Time calculations for days, hours, minutes and seconds
+        var hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="arenas"
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+
+        return mapName + " - " + hours + ":" + minutes + ":" + seconds;
+      }
+
+      var x = setInterval(function () {
+        document.getElementById("battleRoyale").innerHTML = timerFunction(
+          brMapName,
+          countdownDateBR
+        );
+        document.getElementById("arenas").innerHTML = timerFunction(
+          arenaMapName,
+          countdownDateArenas
+        );
+        document.getElementById("arenasRanked").innerHTML = timerFunction(
+          arenasRankedMapName,
+          countdownDateArenasRanked
+        );
+
+        //reloads method every x milliseconds
+      }, 200);
+    </script>
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
