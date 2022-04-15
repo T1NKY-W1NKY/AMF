@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -20,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@PropertySource("classpath:application-dev.properties")
 public class AMFService {
 
     @Autowired
@@ -27,6 +30,8 @@ public class AMFService {
     @Autowired
     private PlayerDAO playerDAO;
     private AMF amf = null;
+    @Value("${apiKey}")
+    private String apiKey;
     WebClient webClient = WebClient.create();
     private static final Logger log = LoggerFactory.getLogger(AMFService.class);
     HashMap<String, Long> endTimer = new HashMap<>();
@@ -48,7 +53,7 @@ public class AMFService {
     public AMF updateAMF(){
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = webClient.get()
-                .uri("https://api.mozambiquehe.re/maprotation?version=5&auth=XxaZO6hTfymkQoBqNqlg")
+                .uri("https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey)
                 .exchange()
                 .block()
                 .bodyToMono(String.class)
@@ -139,7 +144,7 @@ public class AMFService {
 
         //Look into httpclient instead of webclient | https://www.baeldung.com/httpclient4
         String playerJson = webClient.get()
-                .uri("https://api.mozambiquehe.re/bridge?version=5&platform=PC&player=" + name + "&auth=XxaZO6hTfymkQoBqNqlg")
+                .uri("https://api.mozambiquehe.re/bridge?version=5&platform=PC&player=" + name + "&auth=" + apiKey)
                 .exchange()
                 .block()
                 .bodyToMono(String.class)
@@ -161,7 +166,7 @@ public class AMFService {
 
         for(Player player : allPlayers){
             String playerJson = webClient.get()
-                    .uri("https://api.mozambiquehe.re/bridge?version=5&platform=PC&player=" + player.getGlobal().getName() + "&auth=XxaZO6hTfymkQoBqNqlg")
+                    .uri("https://api.mozambiquehe.re/bridge?version=5&platform=PC&player=" + player.getGlobal().getName() + "&auth=" + apiKey)
                     .exchange()
                     .block()
                     .bodyToMono(String.class)
