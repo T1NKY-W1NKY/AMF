@@ -10,6 +10,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -20,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
+@PropertySource("classpath:application-dev.properties")
 public class AMFService {
 
     @Autowired
@@ -27,8 +30,12 @@ public class AMFService {
     @Autowired
     private PlayerDAO playerDAO;
     private AMF amf = null;
+    @Value("${apiKey}")
+    private String apiKey;
     WebClient webClient = WebClient.create();
     private static final Logger log = LoggerFactory.getLogger(AMFService.class);
+    HashMap<String, Long> endTimer = new HashMap<>();
+
 
 
     //returns amf from db
@@ -36,7 +43,9 @@ public class AMFService {
         return amfDAO.getAMF();
     }
 
-
+    public HashMap<String, Long> getEndTimer() {
+        return endTimer;
+    }
 
     //Maps json response to null amf obj in service class (should already have amf object defined before method?)
     //need case for when newAmf returns null orrrrrrrr maybe not
@@ -44,7 +53,7 @@ public class AMFService {
     public AMF updateAMF(){
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = webClient.get()
-                .uri("https://api.mozambiquehe.re/maprotation?version=5&auth=XxaZO6hTfymkQoBqNqlg")
+                .uri("https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey)
                 .exchange()
                 .block()
                 .bodyToMono(String.class)
@@ -57,7 +66,12 @@ public class AMFService {
         return amfDAO.updateAMF(amf);
     }
 
-
+    @PostConstruct
+    public void setEndTimer() throws ParseException {
+        endTimer.put("battleRoyale", timeToSeconds(amfDAO.getAMF().getBattleRoyale().getCurrent().getRemainingTimer()));
+        endTimer.put("arenas", timeToSeconds(amfDAO.getAMF().getArenas().getCurrent().getRemainingTimer()));
+        endTimer.put("arenasRanked", timeToSeconds(amfDAO.getAMF().getArenasRanked().getCurrent().getRemainingTimer()));
+    }
 
     //TODO: add functionality for arenas or br?
     //returns string of image address for the current or next BATTLE_ROYALE map (specified)
@@ -130,7 +144,7 @@ public class AMFService {
 
         //Look into httpclient instead of webclient | https://www.baeldung.com/httpclient4
         String playerJson = webClient.get()
-                .uri("https://api.mozambiquehe.re/bridge?version=5&platform=PC&player=" + name + "&auth=XxaZO6hTfymkQoBqNqlg")
+                .uri("https://api.mozambiquehe.re/bridge?version=5&platform=PC&player=" + name + "&auth=" + apiKey)
                 .exchange()
                 .block()
                 .bodyToMono(String.class)
@@ -152,7 +166,7 @@ public class AMFService {
 
         for(Player player : allPlayers){
             String playerJson = webClient.get()
-                    .uri("https://api.mozambiquehe.re/bridge?version=5&platform=PC&player=" + player.getGlobal().getName() + "&auth=XxaZO6hTfymkQoBqNqlg")
+                    .uri("https://api.mozambiquehe.re/bridge?version=5&platform=PC&player=" + player.getGlobal().getName() + "&auth=" + apiKey)
                     .exchange()
                     .block()
                     .bodyToMono(String.class)
@@ -208,10 +222,15 @@ public class AMFService {
 
         //adds a slight update delay in case the apex api takes a moment to update itself (rounds up to nearest 10s place)
         //increases update delay by a maximum of ten seconds; could be a problem is there is not update delay and errors occurs
-        long roundUp = 10 - lowestTime % 10;
+//        long roundUp = 10 - lowestTime % 10;
+        long roundUp = 3;
         log.info((String.valueOf((lowestTime + roundUp) * 100)));
 
         //* 1000 to go to milliseconds from seconds
         return (lowestTime + roundUp) * 1000;
+    }
+
+    public void decrementCountdown(){
+        endTimer.replaceAll((k, v) -> v - 1);
     }
 }
