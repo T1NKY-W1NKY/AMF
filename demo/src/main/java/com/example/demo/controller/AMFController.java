@@ -44,7 +44,7 @@ public class AMFController {
         return "greeting";
     }
 
-    @GetMapping("/test")
+    @GetMapping("/current")
     public String test(Model model) throws ParseException {
         AMF amf = amfService.getAMF();
         List<Long> mapTimes = amfService.getMapTimes();
