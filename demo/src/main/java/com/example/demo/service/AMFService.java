@@ -222,7 +222,8 @@ public class AMFService {
 
         //adds a slight update delay in case the apex api takes a moment to update itself (rounds up to nearest 10s place)
         //increases update delay by a maximum of ten seconds; could be a problem is there is not update delay and errors occurs
-        long roundUp = 10 - lowestTime % 10;
+//        long roundUp = 10 - lowestTime % 10;
+        long roundUp = 3;
         log.info((String.valueOf((lowestTime + roundUp) * 100)));
 
         //* 1000 to go to milliseconds from seconds

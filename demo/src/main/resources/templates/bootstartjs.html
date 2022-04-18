@@ -270,7 +270,10 @@
 
         // If the count down is over, reload page
         if (distance < 0) {
-          location.reload();
+          if(distance < -5000){
+              location.reload();
+          }
+          return "Loading Map...";
         }
 
         // Time calculations for days, hours, minutes and seconds
