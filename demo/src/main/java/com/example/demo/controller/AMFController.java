@@ -45,9 +45,8 @@ public class AMFController {
     }
 
     @GetMapping("/current")
-    public String test(Model model) throws ParseException {
+    public String currentMaps(Model model) {
         AMF amf = amfService.getAMF();
-        List<Long> mapTimes = amfService.getMapTimes();
 
         model.addAttribute("amf", amf);
         model.addAttribute("currentBR", amfService.getMapImage("current", "battleRoyale"));
@@ -57,16 +56,31 @@ public class AMFController {
         model.addAttribute("currentRanked", amfService.getMapImage("current", "ranked"));
         model.addAttribute("currentArenaRanked", amfService.getMapImage("current", "arenaRanked"));
         model.addAttribute("nextArenaRanked", amfService.getMapImage("next", "arenaRanked"));
-//        model.addAttribute("arenasTimer", mapTimes.get(0));
-//        model.addAttribute("arenasRankedTimer", mapTimes.get(1));
-//        model.addAttribute("battleRoyaleTimer", mapTimes.get(2));
         model.addAttribute("arenasTimer", amfService.getEndTimer().get("arenas"));
         model.addAttribute("arenasRankedTimer", amfService.getEndTimer().get("arenasRanked"));
         model.addAttribute("battleRoyaleTimer", amfService.getEndTimer().get("battleRoyale"));
 
-        return "bootstartjs";
+        return "currentMaps";
     }
 
+    @GetMapping("/next")
+    public String nextMaps(Model model) {
+        AMF amf = amfService.getAMF();
+
+        model.addAttribute("amf", amf);
+        model.addAttribute("nextBR", amfService.getMapImage("next", "battleRoyale"));
+        model.addAttribute("nextArena", amfService.getMapImage("next", "arenas"));
+
+        //need to update this to show appropriate map image (currently displaying "current" ranked image
+        model.addAttribute("nextRanked", amfService.getMapImage("next", "ranked"));
+        model.addAttribute("nextArenaRanked", amfService.getMapImage("next", "arenaRanked"));
+
+        model.addAttribute("arenasTimer", amfService.getEndTimer().get("arenas"));
+        model.addAttribute("arenasRankedTimer", amfService.getEndTimer().get("arenasRanked"));
+        model.addAttribute("battleRoyaleTimer", amfService.getEndTimer().get("battleRoyale"));
+
+        return "nextMaps";
+    }
     //mapping for returning json with certain player data
     @GetMapping("/player")
     @ResponseBody

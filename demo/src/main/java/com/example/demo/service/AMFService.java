@@ -103,7 +103,7 @@ public class AMFService {
         }
 
         //default image in case map image not found
-        String mapImage = "placeholder.jpg";
+        String mapImage = "babyGtar.png";
 
         //Create a hashmap where (k) is map name and (v) is image location
         HashMap<String, String> mapImages = new HashMap<>();
