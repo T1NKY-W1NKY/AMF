@@ -15,8 +15,7 @@ import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
 import java.text.ParseException;
 import java.time.Instant;
-import java.util.Date;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -28,10 +27,19 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     @Autowired
     private AMFService amfService;
 
+
+
+
     //cron job to update player repository every day
     @Scheduled(cron = "0 0 * * * ?")
     public void scheduledDailyPlayerUpdates(){
         amfService.updateAllPlayers();
+    }
+
+    //method to create active countdown timer for maps
+    @Scheduled(fixedDelay = 1000)
+    public void countdownTimer() {
+        amfService.decrementCountdown();
     }
 
     @Bean
@@ -49,6 +57,13 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                         log.info("Attempting to update AMF...\n");
                         amfService.updateAMF();
                         log.info("Updated AMF: " + amfService.getAMF().toString());
+
+                        //updates timer countdown data
+                        try {
+                            amfService.setEndTimer();
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Trigger() {
@@ -57,7 +72,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
                         Long epochTime = null;
                         try {
-                            epochTime = amfService.getNextMapTime() + System.currentTimeMillis();
+                            epochTime = amfService.getNextMapTime(amfService.getMapTimes()) + System.currentTimeMillis();
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
