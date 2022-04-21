@@ -226,10 +226,11 @@ public class AMFService {
         long roundUp = 3;
         log.info((String.valueOf((lowestTime + roundUp) * 100)));
 
-        //* 1000 to go to milliseconds from seconds
+        //(* 1000) to go to milliseconds from seconds
         return (lowestTime + roundUp) * 1000;
     }
 
+    //used to decrement map countdown timers in service
     public void decrementCountdown(){
         endTimer.replaceAll((k, v) -> v - 1);
     }
