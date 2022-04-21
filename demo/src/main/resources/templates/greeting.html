@@ -18,12 +18,14 @@
                 <a class="nav-link" th:href="@{/current}">Maps <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/next}>Competitive (WIP)</a>
+                <a class="nav-link" th:href="@{/next}">
+                Competitive (WIP)
+                </a>
             </li>
         </ul>
     </div>
 
-    <form action="#" th:action="@{/player}" method="GET">
+    <form th:action="@{/player}" method="GET">
         <input type="text" placeholder="Search Player" name="name" id="name">
         <button name="submit" type="submit" value="0">Submit</button>
     </form>
