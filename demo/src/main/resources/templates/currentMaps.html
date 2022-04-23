@@ -18,50 +18,7 @@
     </style>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify">
-  <div class="container-fluid justify-content-center">
-    <a class="navbar-brand ms-3">Apex Map Finder&trade;</a>
-    <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
-        <li class="nav-item active">
-          <a class="nav-link" th:href="@{/}">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/current}"
-          >Current Maps<span class="visually-hidden">(current)</span></a
-          >
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" th:href="@{/next}">Next Maps</a>
-        </li>
-      </ul>
-      <form class="d-flex me-3" th:action="@{/player}" method="GET">
-        <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search Player"
-                aria-label="Search"
-                name="name"
-                id="name"
-        />
-        <button class="btn btn-outline-success" type="submit">
-          Search
-        </button>
-      </form>
-    </div>
-  </div>
-</nav>
+<div th:replace="fragments/navbar :: navbar"></div>
 
 <section id="casual">
   <div class="container-lg my-5 bg-dark rounded">
@@ -125,67 +82,7 @@
   </div>
 </section>
 
-<!-- Footer -->
-<div class="container my-5 bottom-50">
-
-  <footer
-          class="text-center text-lg-start text-white bg-dark">
-    <div class="container p-4 pb-0">
-      <section class="">
-        <div class="row">
-          <div class="col-lg-8 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase text-center">FOOTER CONTENT</h5>
-            <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Molestiae modi cum ipsam ad, illo possimus laborum ut
-              reiciendis obcaecati. Ducimus, quas. Corrupti, pariatur eaque?
-              Reiciendis assumenda iusto sapiente inventore animi? Molestiae modi cum ipsam ad.
-            </p>
-          </div>
-
-          <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase text-center">Links</h5>
-            <ul class="list-unstyled mb-0 text-center">
-              <li>
-                <a href="#!" class="text-white">Link 1</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 2</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 3</a>
-              </li>
-              <li>
-                <a href="#!" class="text-white">Link 4</a>
-              </li>
-            </ul>
-          </div>
-
-        </div>
-      </section>
-
-      <hr class="mb-4" />
-
-      <!-- Section: CTA -->
-      <section class="">
-        <p class="d-flex justify-content-center align-items-center">
-          <span class="me-3">Map notifications:</span>
-          <button type="button" class="btn btn-outline-light btn-rounded">
-            Sign up!
-          </button>
-        </p>
-      </section>
-      <!-- Section: CTA -->
-
-      <hr class="mb-4" />
-
-    </div>
-    <div class="text-center p-3" style="background-color: #181a1b">
-      © 2022 Copyright: Apex Map Finder
-    </div>
-  </footer>
-</div>
-<!-- End of footer -->
+<div th:replace="fragments/footer :: footer"></div>
 
 <!--script for displaying countdown timer-->
 <script>

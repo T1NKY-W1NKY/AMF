@@ -94,4 +94,11 @@ public class AMFController {
         return amfService.getAllPlayers();
     }
 
+    @GetMapping("/signup")
+    public String signup(){
+//        userService.signUp(email);
+//        something like that
+        return "signUp";
+    }
+
 }

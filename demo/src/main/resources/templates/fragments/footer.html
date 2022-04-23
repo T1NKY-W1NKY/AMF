@@ -1,0 +1,63 @@
+<div th:fragment="footer">
+  <div class="container my-5 bottom-50">
+
+    <footer
+            class="text-center text-lg-start text-white bg-dark">
+      <div class="container p-4 pb-0">
+        <section class="">
+          <div class="row">
+            <div class="col-lg-8 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-uppercase text-center">FOOTER CONTENT</h5>
+              <p>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Molestiae modi cum ipsam ad, illo possimus laborum ut
+                reiciendis obcaecati. Ducimus, quas. Corrupti, pariatur eaque?
+                Reiciendis assumenda iusto sapiente inventore animi? Molestiae modi cum ipsam ad.
+              </p>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4 mb-md-0">
+              <h5 class="text-uppercase text-center">Links</h5>
+              <ul class="list-unstyled mb-0 text-center">
+                <li>
+                  <a href="#!" class="text-white">Link 1</a>
+                </li>
+                <li>
+                  <a href="#!" class="text-white">Link 2</a>
+                </li>
+                <li>
+                  <a href="#!" class="text-white">Link 3</a>
+                </li>
+                <li>
+                  <a href="#!" class="text-white">Link 4</a>
+                </li>
+              </ul>
+            </div>
+
+          </div>
+        </section>
+
+        <hr class="mb-4" />
+
+        <!-- Section: CTA -->
+        <section class="">
+          <p class="d-flex justify-content-center align-items-center">
+            <span class="me-3">Map notifications:</span>
+            <!--   Fix Button becoming completely white when hovered over    -->
+            <button type="button" class="btn btn-outline-light btn-rounded">
+              <a class="text-light" th:href="@{/signup}">Sign up!</a>
+            </button>
+          </p>
+        </section>
+        <!-- Section: CTA -->
+
+        <hr class="mb-4" />
+
+      </div>
+      <div class="text-center p-3" style="background-color: #181a1b">
+        © 2022 Copyright: Apex Map Finder
+      </div>
+    </footer>
+  </div>
+</div>
+
