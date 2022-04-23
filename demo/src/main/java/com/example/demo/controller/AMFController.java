@@ -44,18 +44,30 @@ public class AMFController {
         return "greeting";
     }
 
+    @GetMapping("/map_prototype")
+    public String mapPrototype(Model model){
+        AMF amf = amfService.getAMF();
+
+        model.addAttribute("amf", amf);
+        model.addAttribute("currentBR", amfService.getMapImage("current", "battleRoyale"));
+        model.addAttribute("currentArena", amfService.getMapImage("current", "arenas"));
+        model.addAttribute("currentRanked", amfService.getMapImage("current", "ranked"));
+        model.addAttribute("currentArenaRanked", amfService.getMapImage("current", "arenaRanked"));
+        model.addAttribute("arenasTimer", amfService.getEndTimer().get("arenas"));
+        model.addAttribute("arenasRankedTimer", amfService.getEndTimer().get("arenasRanked"));
+        model.addAttribute("battleRoyaleTimer", amfService.getEndTimer().get("battleRoyale"));
+
+        return "mapPrototype";
+    }
     @GetMapping("/current")
     public String currentMaps(Model model) {
         AMF amf = amfService.getAMF();
 
         model.addAttribute("amf", amf);
         model.addAttribute("currentBR", amfService.getMapImage("current", "battleRoyale"));
-        model.addAttribute("nextBR", amfService.getMapImage("next", "battleRoyale"));
         model.addAttribute("currentArena", amfService.getMapImage("current", "arenas"));
-        model.addAttribute("nextArena", amfService.getMapImage("next", "arenas"));
         model.addAttribute("currentRanked", amfService.getMapImage("current", "ranked"));
         model.addAttribute("currentArenaRanked", amfService.getMapImage("current", "arenaRanked"));
-        model.addAttribute("nextArenaRanked", amfService.getMapImage("next", "arenaRanked"));
         model.addAttribute("arenasTimer", amfService.getEndTimer().get("arenas"));
         model.addAttribute("arenasRankedTimer", amfService.getEndTimer().get("arenasRanked"));
         model.addAttribute("battleRoyaleTimer", amfService.getEndTimer().get("battleRoyale"));
