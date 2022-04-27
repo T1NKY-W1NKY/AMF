@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.AMF;
+import com.example.demo.dto.Notification;
 import com.example.demo.dto.Player;
 import com.example.demo.service.AMFService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,8 @@ public class AMFController {
 
     @Autowired
     private AMFService amfService;
+//    @Autowired
+//    private NotificationSerivce notificationSerivce;
 
     //Method to get current api making an api call n such
     @GetMapping("/amf")
@@ -107,9 +110,10 @@ public class AMFController {
     }
 
     @GetMapping("/signup")
-    public String signup(){
-//        userService.signUp(email);
-//        something like that
+    public String signup(@RequestParam(value = "email", required = false, defaultValue = "None") String email){
+        //when page reloads email is inserted
+        System.out.println(email);
+//        notificationSerivce.saveEmail(email);
         return "signUp";
     }
 
