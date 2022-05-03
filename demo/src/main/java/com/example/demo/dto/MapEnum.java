@@ -1,0 +1,6 @@
+package com.example.demo.dto;
+
+public enum MapEnum {
+
+    DROPOFF, ENCORE, HABITAT, OVERFLOW, PARTY_CRASHER, PHASE_RUNNER, STORM_POINT, WORLDS_EDGE, KINGS_CANYON, OLYMPUS,
+}

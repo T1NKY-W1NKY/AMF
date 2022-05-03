@@ -7,10 +7,12 @@ import com.example.demo.service.AMFService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 //not @RestController b/c then getGreeting would return String "greeting"
 @Controller
@@ -110,11 +112,20 @@ public class AMFController {
     }
 
     @GetMapping("/signup")
-    public String signup(@RequestParam(value = "email", required = false, defaultValue = "None") String email){
-        //when page reloads email is inserted
-        System.out.println(email);
-//        notificationSerivce.saveEmail(email);
+    public String signup(){
+
         return "signUp";
     }
 
+    @GetMapping("/save")
+    public String saveUser(@RequestParam MultiValueMap<String, String> allParams /*@RequestParam(value = "email", required = true) String email, @RequestParam(value = "br")List<String> battleRoyaleMaps), @RequestParam(value = "ar")List<String> arenas*/){
+        //when page reloads email is inserted
+        System.out.println(allParams.get("email").toString());
+        System.out.println(allParams.get("ar").toString());
+        System.out.println(allParams.get("br").toString());
+//        System.out.println(email);
+//        System.out.println(arenas.toString());
+//        notificationSerivce.saveEmail(email);
+        return "confirmation";
+    }
 }
