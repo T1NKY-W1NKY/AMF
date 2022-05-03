@@ -22,10 +22,11 @@
 
 <!--Add signup form here-->
 <div class="container-lg my-5">
+    <form class="d-flex" method="get">
     <div class="row justify-content-center">
         <!-- #181a1b | Color used on border to match background of body -->
-        <div class="col-md-4">
-            <form class="d-flex" method="GET">
+        <div class="col-md-12">
+
                 <input
                         class="form-control"
                         type="search"
@@ -34,9 +35,42 @@
                         name="email"
                         id="email"
                 />
-            </form>
         </div>
     </div>
+    <div class="row justify-content-center text-light">
+        <!-- #181a1b | Color used on border to match background of body -->
+        <div class="col-md-4">
+<!--            <form class="d-flex" method="get">-->
+                <fieldset>
+                    <label for="br">Choose a br map:</label>
+                    <select id="br" name="br" size="4" multiple>
+                        <option value="King's Canyon">King's Canyon</option>
+                        <option value="World's Edge">World's Edge</option>
+                        <option value="Olympus">Olympus</option>
+                        <option value="Storm Point">Storm Point</option>
+                    </select>
+                </fieldset>
+<!--            </form>-->
+        </div>
+        <div class="col-md-4">
+<!--            <form class="d-flex" method="get">-->
+                <fieldset>
+                    <label for="ar">Choose a arena map:</label>
+                    <select id="ar" name="ar" size="6" multiple>
+                        <option value="Drop Off">Drop Off</option>
+                        <option value="Habitat 4">Habitat 4</option>
+                        <option value="Encore">Encore</option>
+                        <option value="Overflow">Overflow</option>
+                        <option value="Party Crasher">Party Crasher</option>
+                        <option value="Phase Runner">Phase Runner</option>
+                    </select>
+
+                </fieldset>
+<!--            </form>-->
+        </div>
+    </div>
+        <input type="submit">
+    </form>
 </div>
 
 
