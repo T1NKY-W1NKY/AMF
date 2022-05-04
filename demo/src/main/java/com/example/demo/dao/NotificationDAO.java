@@ -27,5 +27,17 @@ public class NotificationDAO {
         return notifications;
     }
 
+    public void save(Notification notification){
+        notificationRepository.save(notification);
+    }
+
+    public void delete(String email){
+        notificationRepository.delete(getNotificationByEmail(email));
+    }
+
+    public boolean userExists(String email){
+        return notificationRepository.existsByEmail(email);
+    }
+
 }
 

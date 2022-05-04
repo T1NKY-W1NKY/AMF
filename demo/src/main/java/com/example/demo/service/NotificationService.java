@@ -13,6 +13,10 @@ public class NotificationService {
     @Autowired
     private NotificationDAO notificationDAO;
 
+    public void save(Notification notification) {
+        notificationDAO.save(notification);
+    }
+
     public List<Notification> getAllNotifications(){
         return notificationDAO.getAllNotifications();
     }

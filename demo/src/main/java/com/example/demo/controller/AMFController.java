@@ -4,6 +4,7 @@ import com.example.demo.dto.AMF;
 import com.example.demo.dto.Notification;
 import com.example.demo.dto.Player;
 import com.example.demo.service.AMFService;
+import com.example.demo.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,8 +22,8 @@ public class AMFController {
 
     @Autowired
     private AMFService amfService;
-//    @Autowired
-//    private NotificationSerivce notificationSerivce;
+    @Autowired
+    private NotificationService notificationSerivce;
 
     //Method to get current api making an api call n such
     @GetMapping("/amf")
@@ -119,13 +121,25 @@ public class AMFController {
 
     @GetMapping("/save")
     public String saveUser(@RequestParam MultiValueMap<String, String> allParams /*@RequestParam(value = "email", required = true) String email, @RequestParam(value = "br")List<String> battleRoyaleMaps), @RequestParam(value = "ar")List<String> arenas*/){
-        //when page reloads email is inserted
+        //Problem: when page reloads existing data is inserted b/c still in url
         System.out.println(allParams.get("email").toString());
-        System.out.println(allParams.get("ar").toString());
         System.out.println(allParams.get("br").toString());
-//        System.out.println(email);
-//        System.out.println(arenas.toString());
-//        notificationSerivce.saveEmail(email);
+        System.out.println(allParams.get("ar").toString());
+
+        List<String> maps = new ArrayList<>();
+        for(String map : allParams.get("br")){
+            maps.add("br_" + map);
+        }
+        for(String map : allParams.get("ar")){
+            maps.add("ar_" + map);
+        }
+        Notification notification = new Notification();
+        notification.setEmail(allParams.get("email").get(0));
+        notification.setMaps(maps);
+
+        notificationSerivce.save(notification);
+        System.out.println(notification.toString());
+//        notificationSerivce.saveNotification(notification);
         return "confirmation";
     }
 }
