@@ -71,10 +71,10 @@ public class AMFService {
         endTimer.put("battleRoyale", timeToSeconds(amfDAO.getAMF().getBattleRoyale().getCurrent().getRemainingTimer()));
         endTimer.put("arenas", timeToSeconds(amfDAO.getAMF().getArenas().getCurrent().getRemainingTimer()));
         endTimer.put("arenasRanked", timeToSeconds(amfDAO.getAMF().getArenasRanked().getCurrent().getRemainingTimer()));
+        endTimer.put("battleRoyaleRanked", timeToSeconds(amfDAO.getAMF().getRanked().getCurrent().getRemainingTimer()));
     }
 
-    //TODO: add functionality for arenas or br?
-    //returns string of image address for the current or next BATTLE_ROYALE map (specified)
+    //returns string of image address for the current or next map (specified)
     //state = current / next
     public String getMapImage(String state, String mode){
         //could be a problem if amf object is never created since getAmf needs to be called for it to be populated
@@ -127,9 +127,6 @@ public class AMFService {
         return mapImage;
     }
 
-
-
-    //split to updatePlayer & getPlayer
     public Player getPlayer(String name){
         return playerDAO.findByPlayerName(name);
     }
@@ -192,7 +189,7 @@ public class AMFService {
         return seconds;
     }
 
-    //returns list of map times in raw seconds in set order: 0-Arenas, 1-ArenasRanked, 2-BattleRoyale
+    //returns list of map times in raw seconds in set order: 0-Arenas, 1-ArenasRanked, 2-BattleRoyale, 3-BattleRoyaleRanked
     public List<Long> getMapTimes() throws ParseException {
         AMF amf = amfDAO.getAMF();
         List<Long> timeInSeconds = new ArrayList<>();
@@ -202,6 +199,7 @@ public class AMFService {
         remainingTimes.add(amf.getArenas().getCurrent().getRemainingTimer());
         remainingTimes.add(amf.getArenasRanked().getCurrent().getRemainingTimer());
         remainingTimes.add(amf.getBattleRoyale().getCurrent().getRemainingTimer());
+        remainingTimes.add(amf.getRanked().getCurrent().getRemainingTimer());
 
         //change timer to seconds
         for (int i = 0; i < remainingTimes.size(); i++) {
