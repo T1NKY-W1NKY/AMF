@@ -27,8 +27,6 @@ public class AMFSQLDAO {
         return savedAMF;
     }
 
-
-
     //need annotation to know it is updating entity for some reason, do not need to .save() the object then
     @Transactional
     public AMF updateAMF(AMF newAmf){
