@@ -64,7 +64,7 @@ public class AMFService {
             jsonProcessingException.printStackTrace();
         }
         //DB check
-        return amfDAO.save(amf);
+        return amfDAO.updateAMF(amf);
     }
 
     @PostConstruct
