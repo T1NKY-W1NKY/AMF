@@ -1,0 +1,16 @@
+version: '1'
+services:
+
+  ### Mysql container
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    volumes:
+      - /var/lib/mysql:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: my-secret-pw
+      MYSQL_DATABASE: amf
+      MYSQL_USER: test
+      MYSQL_PASSWORD: my-secret-pw
+      MYSQL_ROOT_HOST: "%"
