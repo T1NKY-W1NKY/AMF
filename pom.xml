@@ -14,7 +14,7 @@
 	<name>Apex Map Finder</name>
 	<description>Finds the current and next map rotation</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>18</java.version>
 	</properties>
 	<dependencies>
 
