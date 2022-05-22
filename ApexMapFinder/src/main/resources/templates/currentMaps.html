@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Title</title>
+  <link
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+          crossorigin="anonymous"
+  />
+
+  <title>Current Apex Maps</title>
+  <style>
+      body{
+        background-color: #181a1b;
+      }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<section id="casual">
+  <div class="container-lg my-5 bg-dark rounded">
+    <div class="row justify-content-center border-bottom border-5 border-color" style="border-color: #181a1b !important;">
+      <!-- #181a1b | Color used on border to match background of body -->
+      <div class="col-md-5 d-none d-md-block">
+        <h3 class="text-center text-light fw-bold my-3">Battle Royale</h3>
+      </div>
+      <div class="col-md-2">
+        <h1 class="text-center text-light fw-bold my-2">Casual</h1>
+      </div>
+      <div class="col-md-5 d-none d-md-block">
+        <h3 class="text-center text-light fw-bold my-3">Arenas</h3>
+      </div>
+
+    </div>
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentBR}" alt="BR Image"/>
+        <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
+        <!--            <p class="lead text-center text-light fw-bold" th:text="${amf.battleRoyale.current.map} + ' - ' + ${amf.battleRoyale.current.remainingTimer}"></p>-->
+        <p id="battleRoyale" class="lead text-center text-light fw-bold mt-2">ㅤ</p>
+      </div>
+      <div class="col-md-6">
+        <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentArena}" alt="Arenas Image"/>
+        <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
+        <!--            <p class="lead text-center text-light fw-bold" th:text="${amf.arenas.current.map} + ' - ' +${amf.arenas.current.remainingTimer}"></p>-->
+        <p id="arenas" class="lead text-center text-light fw-bold mt-2">ㅤ</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="competitive">
+  <div class="container-lg my-5 bg-dark rounded">
+
+    <div class="row justify-content-center border-bottom border-5 border-danger">
+      <!-- #181a1b | Color used on border to match background of body -->
+      <div class="col-md-5 d-none d-md-block">
+        <h3 class="text-center text-light fw-bold my-3">Battle Royale</h3>
+      </div>
+      <div class="col-md-2">
+        <h1 class="text-center text-light fw-bold my-2">Competitive</h1>
+      </div>
+      <div class="col-md-5 d-none d-md-block">
+        <h3 class="text-center text-light fw-bold my-3">Arenas</h3>
+      </div>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentRanked}" alt="BR Ranked Image"/>
+        <p id="battleRoyaleRanked" class="lead text-center text-light fw-bold mt-2" th:text="${amf.ranked.current.map}">ㅤ</p>
+        <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
+        <!--        <p class="lead text-center text-light fw-bold mt-2" th:text="${amf.ranked.current.map}"></p>-->
+      </div>
+      <div class="col-md-6">
+        <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentArenaRanked}" alt="Arenas Ranked Image"/>
+        <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
+        <!--            <p class="lead text-center text-light fw-bold" th:text="${amf.arenasRanked.current.map} + ' - ' +${amf.arenasRanked.current.remainingTimer}"></p>-->
+        <p id="arenasRanked" class="lead text-center text-light fw-bold mt-2">ㅤ</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div th:replace="fragments/footer :: footer"></div>
+
+<!--script for displaying countdown timer-->
+<script>
+      // Set the dates we're counting down to
+      var brTimer = [[${battleRoyaleTimer}]];
+      var brMapName = "[[${amf.battleRoyale.current.map}]]";
+      var countdownDateBR =
+        new Date().getTime() + brTimer * 1000;
+
+      var arenaTimer = [[${arenasTimer}]];
+      var arenaMapName = "[[${amf.arenas.current.map}]]";
+      var countdownDateArenas =
+        new Date().getTime() + arenaTimer * 1000;
+
+      var arenasRankedTimer = [[${arenasRankedTimer}]];
+      var arenasRankedMapName = "[[${amf.arenasRanked.current.map}]]";
+      var countdownDateArenasRanked =
+        new Date().getTime() + arenasRankedTimer * 1000;
+
+      var battleRoyaleRankedTimer = [[${battleRoyaleRankedTimer}]];
+      var battleRoyaleRankedMapName = "[[${amf.ranked.current.map}]]";
+      var countdownDateBattleRoyaleRanked =
+        new Date().getTime() + battleRoyaleRankedTimer * 1000;
+
+      function timerFunction(mapName, countdownDate) {
+        // Get today's date and time
+        var now = new Date().getTime();
+
+        // Find the distance between now and the count down date
+        var distance = countdownDate - now;
+
+        // If the count down is over and its been 5 seconds (5000ms), reload page w/ new map data
+        if (distance < 0) {
+          if(distance < -5000){
+              location.reload();
+          }
+          return "Loading Map...";
+        }
+
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24))
+        var hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Output the result in an element with id="arenas"
+        if (minutes < 10) {
+          minutes = "0" + minutes;
+        }
+        if (seconds < 10) {
+          seconds = "0" + seconds;
+        }
+
+        return mapName + " - " + days + " days " + hours + ":" + minutes + ":" + seconds;
+      }
+
+      var x = setInterval(function () {
+        document.getElementById("battleRoyale").innerHTML = timerFunction(
+          brMapName,
+          countdownDateBR
+        );
+        document.getElementById("arenas").innerHTML = timerFunction(
+          arenaMapName,
+          countdownDateArenas
+        );
+        document.getElementById("arenasRanked").innerHTML = timerFunction(
+          arenasRankedMapName,
+          countdownDateArenasRanked
+        );
+        document.getElementById("battleRoyaleRanked").innerHTML = timerFunction(
+          battleRoyaleRankedMapName,
+          countdownDateBattleRoyaleRanked
+        );
+
+        //reloads method every 200 milliseconds
+      }, 200);
+    </script>
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"
+></script>
+</body>
+</html>

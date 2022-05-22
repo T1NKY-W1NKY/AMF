@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>First Map Page</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <style>
+        td {
+            height: 30vw;
+            width: 30vw;
+            object-fit: cover;
+        }
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+            margin-top: 75px;
+        }
+        td {
+            border-width: 5vw;
+            background-size: cover;
+            background-position: center;
+            border-color: #202020;
+        }
+        body {
+            background-color: #202020;
+        }
+        background-image {
+            object-fit: cover;
+            object-position: center;
+        }
+        .shade {
+          width: 100%;
+          height: 100%;
+          background: rgba(0,0,0,0.5);
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+    </style>
+</head>
+<body>
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<hr>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand">Apex Map Finder&trade;</a>
+        <form class="d-flex"  action="#" th:action="@{/player}" method="GET">
+            <input class="form-control me-2" type="search" placeholder="Search Player" aria-label="Search" name="name" id="name">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+        </form>
+    </div>
+</nav>
+
+<table style="border: 3px solid transparent" class="center">
+    <tr style="text-align: center">
+        <td th:background="${currentBR}">
+            <!--                <img class="back-image" th:src="${currentBR}" width="50%" height="50%" alt="BR Image">-->
+            <h1 th:text="${amf.battleRoyale.current.map}"></h1>
+        </td>
+        <td th:background="${currentArena}">
+            <!--                <img class="back-image" th:src="${currentArena}" width="50%" height="50%" alt="Arenas Image">-->
+            <h1 th:text="${amf.arenas.current.map}"></h1>
+        </td>
+    </tr>
+</table>
+
+<!--    <div class = "container">-->
+<!--        <div class="g-col-6" class="vw-25"> Boing-->
+<!--            <div>Width 100vw-->
+<!--            <div class="vh-25">Height 100vh-->
+<!--                <img th:src="${currentBR}" class="rounded" alt="BR Image">-->
+<!--            </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="g-col-6">Going-->
+<!--            <div class="vw-25">Width 100vw-->
+<!--            <div class="vh-25">Height 100vh-->
+<!--                <img th:src="${currentArena}" class="rounded"  alt="Arenas Image">-->
+<!--            </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+</body>
+</html>
