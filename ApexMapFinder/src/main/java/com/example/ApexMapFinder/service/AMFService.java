@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
-@PropertySource("classpath:application-dev.properties")
+@PropertySource("classpath:application.properties")
 public class AMFService {
 
     @Autowired
