@@ -26,8 +26,14 @@ public class AMFSQLDAO {
     //need annotation to know it is updating entity for some reason, do not need to .save() the object then
     @Transactional
     public AMF updateAMF(AMF newAmf){
+        AMF amf;
         //would it be better to just call the code within getAmf() ?
-        AMF amf = getAMF();
+        try {
+            amf = getAMF();
+        }
+        catch (Exception e){
+            return save(newAmf);
+        }
         //have to go and set every non-id data type otherwise new instances of those objects in db will be created
         //this will leave the db with many leftover values from the past
         amf.getArenasRanked().getCurrent().setRemainingTimer(newAmf.getArenasRanked().getCurrent().getRemainingTimer());

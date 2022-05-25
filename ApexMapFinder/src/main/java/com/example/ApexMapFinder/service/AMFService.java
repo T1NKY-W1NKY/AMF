@@ -30,7 +30,7 @@ public class AMFService {
     @Autowired
     private PlayerDAO playerDAO;
     private AMF amf = null;
-    @Value("${apiKey}")
+    @Value("${API_KEY}")
     private String apiKey;
     WebClient webClient = WebClient.create();
     private static final Logger log = LoggerFactory.getLogger(AMFService.class);
