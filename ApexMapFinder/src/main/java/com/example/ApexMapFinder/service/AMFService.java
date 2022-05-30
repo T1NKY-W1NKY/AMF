@@ -113,7 +113,7 @@ public class AMFService {
         mapImages.put("Overflow","overflow.jpg");
         mapImages.put("Party Crasher","partyCrasher.jpg");
         mapImages.put("Phase runner","phaseRunner.jpg");
-        mapImages.put("World's Edge","worldsEdge.jpg");
+        mapImages.put("World's Edge","worldsEdge.webp");
         mapImages.put("Habitat", "habitat.jpg");
         mapImages.put("Storm Point", "stormPoint.png");
         mapImages.put("Drop Off", "dropOff2.jpg");
