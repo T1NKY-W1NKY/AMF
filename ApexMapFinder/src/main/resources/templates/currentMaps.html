@@ -110,7 +110,7 @@
       var countdownDateBattleRoyaleRanked =
         new Date().getTime() + battleRoyaleRankedTimer * 1000;
 
-      function timerFunction(mapName, countdownDate) {
+            function timerFunction(mapName, countdownDate) {
         // Get today's date and time
         var now = new Date().getTime();
 
@@ -134,14 +134,23 @@
         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         // Output the result in an element with id="arenas"
+
+        //cleans up timer display
         if (minutes < 10) {
           minutes = "0" + minutes;
         }
         if (seconds < 10) {
           seconds = "0" + seconds;
         }
+        if (days == 0) {
+          days = "";
+        }
+        else {
+          days = days + " days ";
+        }
 
-        return mapName + " - " + days + " days " + hours + ":" + minutes + ":" + seconds;
+          return mapName + " - " + days + hours + ":" + minutes + ":" + seconds;
+
       }
 
       var x = setInterval(function () {
