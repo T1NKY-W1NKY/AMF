@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -116,6 +117,12 @@ public class AMFController {
     public String signup(){
 
         return "signUp";
+    }
+
+    @GetMapping("/registration")
+    public String showRegistrationForm(ModelAndView modelAndView){
+
+        return "registration";
     }
 
     @GetMapping("/save")
