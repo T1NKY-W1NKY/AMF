@@ -1,6 +1,7 @@
 package com.example.ApexMapFinder.dto;
 
 import lombok.Data;
+import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.util.List;
@@ -12,14 +13,24 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
+    @NotNull
     String email;
+
+    @NotNull
+    @ElementCollection
+    List<GameMap> gameMaps;
+
+    public Notification(){
+
+    }
 //    @ElementCollection
 //    List<String> gamemodes;
 
     //each map with start with the gamemode they are attributed to:
     //BR_KingsCanyon | A_DropOff | RBR_Olympus | RA_PhaseRunner
-    @ElementCollection
-    List<String> maps;
+//    @NotNull
+//    @ElementCollection
+//    List<String> maps;
 //    Map<String, List<String>> mapList;
 //    @OneToMany
 //    Map<String, String> mapList;

@@ -1,8 +1,6 @@
 package com.example.ApexMapFinder.controller;
 
-import com.example.ApexMapFinder.dto.AMF;
-import com.example.ApexMapFinder.dto.Notification;
-import com.example.ApexMapFinder.dto.Player;
+import com.example.ApexMapFinder.dto.*;
 import com.example.ApexMapFinder.service.AMFService;
 import com.example.ApexMapFinder.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,39 +111,41 @@ public class AMFController {
         return amfService.getAllPlayers();
     }
 
-    @GetMapping("/signup")
-    public String signup(){
-
-        return "signUp";
-    }
-
     @GetMapping("/registration")
-    public String showRegistrationForm(ModelAndView modelAndView){
-
+    public String showRegistrationForm(Model model){
+        model.addAttribute(new Notification());
+        model.addAttribute("allMaps", MapEnum.values());
+        model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
+        model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
         return "registration";
     }
 
-    @GetMapping("/save")
-    public String saveUser(@RequestParam MultiValueMap<String, String> allParams /*@RequestParam(value = "email", required = true) String email, @RequestParam(value = "br")List<String> battleRoyaleMaps), @RequestParam(value = "ar")List<String> arenas*/){
-        //Problem: when page reloads existing data is inserted b/c still in url
-        System.out.println(allParams.get("email").toString());
-        System.out.println(allParams.get("br").toString());
-        System.out.println(allParams.get("ar").toString());
-
-        List<String> maps = new ArrayList<>();
-        for(String map : allParams.get("br")){
-            maps.add("br_" + map);
-        }
-        for(String map : allParams.get("ar")){
-            maps.add("ar_" + map);
-        }
-        Notification notification = new Notification();
-        notification.setEmail(allParams.get("email").get(0));
-        notification.setMaps(maps);
-
-        notificationSerivce.save(notification);
-        System.out.println(notification.toString());
-//        notificationSerivce.saveNotification(notification);
-        return "confirmation";
-    }
+//    @GetMapping("/signup")
+//    public String signup(){
+//
+//        return "signUp";
+//    }
+//    @GetMapping("/save")
+//    public String saveUser(@RequestParam MultiValueMap<String, String> allParams /*@RequestParam(value = "email", required = true) String email, @RequestParam(value = "br")List<String> battleRoyaleMaps), @RequestParam(value = "ar")List<String> arenas*/){
+//        //Problem: when page reloads existing data is inserted b/c still in url
+//        System.out.println(allParams.get("email").toString());
+//        System.out.println(allParams.get("br").toString());
+//        System.out.println(allParams.get("ar").toString());
+//
+//        List<String> maps = new ArrayList<>();
+//        for(String map : allParams.get("br")){
+//            maps.add("br_" + map);
+//        }
+//        for(String map : allParams.get("ar")){
+//            maps.add("ar_" + map);
+//        }
+//        Notification notification = new Notification();
+//        notification.setEmail(allParams.get("email").get(0));
+//        notification.setMaps(maps);
+//
+//        notificationSerivce.save(notification);
+//        System.out.println(notification.toString());
+////        notificationSerivce.saveNotification(notification);
+//        return "confirmation";
+//    }
 }

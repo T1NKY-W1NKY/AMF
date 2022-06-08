@@ -21,6 +21,15 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 
+<!--Use a checkbox for form input-->
+<p class="text-light" th:each="map : ${allMaps}" th:text="${map.name}"></p>
+<hr>
+<p class="text-light" th:each="map : ${arenaMaps}" th:text="${map.name}"></p>
+<hr>
+<p class="text-light" th:each="map : ${battleRoyaleMaps}" th:text="${map.name}">
+    <input type="checkbox" id="brMap" name="brMap" value="brMap">
+    <label for="brmap" th:text="${map.name}"></label><br>
+</p>
 
 <div th:replace="fragments/footer :: footer"></div>
 
