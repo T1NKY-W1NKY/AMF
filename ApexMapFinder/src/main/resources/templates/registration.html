@@ -20,16 +20,25 @@
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
 
-
-<!--Use a checkbox for form input-->
-<p class="text-light" th:each="map : ${allMaps}" th:text="${map.name}"></p>
-<hr>
-<p class="text-light" th:each="map : ${arenaMaps}" th:text="${map.name}"></p>
-<hr>
-<p class="text-light" th:each="map : ${battleRoyaleMaps}" th:text="${map.name}">
-    <input type="checkbox" id="brMap" name="brMap" value="brMap">
-    <label for="brmap" th:text="${map.name}"></label><br>
-</p>
+<form class="text-light" action="#" th:action="@{/saveNotification}" th:object="${notification}" method="post">
+    <table border="1">
+        <tr>
+            <td>Enter your email: </td>
+            <td><input type="String" th:field="*{email}" /></td>
+        </tr>
+        <div th:each="map : ${allMaps}">
+            <tr>
+                <td>
+                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />
+                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>
+                </td>
+            </tr>
+        </div>
+        <tr>
+            <td><input type="submit" value="Submit" /></td>
+        </tr>
+    </table>
+</form>
 
 <div th:replace="fragments/footer :: footer"></div>
 

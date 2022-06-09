@@ -13,10 +13,8 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
-    @NotNull
     String email;
 
-    @NotNull
     @ElementCollection
     List<GameMap> gameMaps;
 
