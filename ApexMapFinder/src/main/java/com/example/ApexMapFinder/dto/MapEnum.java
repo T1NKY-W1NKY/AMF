@@ -18,6 +18,7 @@ public enum MapEnum {
     OLYMPUS (GamemodeEnum.BATTLEROYALE, GamemodeEnum.BATTLEROYALE_RANKED, "Olympus");
 
     private GamemodeEnum casual;
+
     private GamemodeEnum ranked;
 
     private String name;
