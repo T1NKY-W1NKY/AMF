@@ -17,6 +17,7 @@ public enum MapEnum {
     KINGS_CANYON (GamemodeEnum.BATTLEROYALE, GamemodeEnum.BATTLEROYALE_RANKED, "Kings Canyon"),
     OLYMPUS (GamemodeEnum.BATTLEROYALE, GamemodeEnum.BATTLEROYALE_RANKED, "Olympus");
 
+
     private GamemodeEnum casual;
 
     private GamemodeEnum ranked;

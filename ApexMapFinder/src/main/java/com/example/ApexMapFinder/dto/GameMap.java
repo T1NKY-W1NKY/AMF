@@ -19,6 +19,6 @@ public @Data class GameMap {
     @GeneratedValue(strategy = GenerationType.AUTO)
     public int id;
     GamemodeEnum gamemode;
-    MapEnum map;
+    MapEnum name;
 
 }

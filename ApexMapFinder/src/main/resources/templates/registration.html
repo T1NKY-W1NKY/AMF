@@ -45,41 +45,44 @@
             <td><input type="String" th:field="*{email}" /></td>
         </tr>
         <th>Casual Battle Royale: </th>
-        <div th:each="map : ${battleRoyaleMaps}">
+        <div th:each="map,iter : ${battleRoyaleMaps}">
             <tr>
                 <td>
-                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />
-                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>
+                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].name}" th:value="${map.name}"/>
+                    <label th:text="${map.name}"></label>
+<!--                    <input type="hidden" th:field="*{gameMaps[__${iter.index}__].gamemode}" th:value="${T(com.baeldung.thymeleaf.model.GamemodeEnum).BATTLE_ROYALE}"/>-->
+                    <!--                    seems unnecessary | th:for="${#ids.prev('gameMaps')}"-->
+
                 </td>
             </tr>
         </div>
-        <th>Casual Arena: </th>
-        <div th:each="map : ${arenaMaps}">
-            <tr>
-                <td>
-                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />
-                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>
-                </td>
-            </tr>
-        </div>
-        <th>Competitive Battle Royale: </th>
-        <div th:each="map : ${battleRoyaleMaps}">
-            <tr>
-                <td>
-                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />
-                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>
-                </td>
-            </tr>
-        </div>
-        <th>Competitive Arena: </th>
-        <div th:each="map : ${arenaMaps}">
-            <tr>
-                <td>
-                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />
-                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>
-                </td>
-            </tr>
-        </div>
+<!--        <th>Casual Arena: </th>-->
+<!--        <div th:each="map : ${arenaMaps}">-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />-->
+<!--                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </div>-->
+<!--        <th>Competitive Battle Royale: </th>-->
+<!--        <div th:each="map : ${battleRoyaleMaps}">-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />-->
+<!--                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </div>-->
+<!--        <th>Competitive Arena: </th>-->
+<!--        <div th:each="map : ${arenaMaps}">-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />-->
+<!--                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </div>-->
         <tr>
             <td><input type="submit" value="Submit" /></td>
         </tr>

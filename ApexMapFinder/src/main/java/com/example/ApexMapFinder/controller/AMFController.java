@@ -113,11 +113,21 @@ public class AMFController {
 
     @GetMapping("/registration")
     public String showRegistrationForm(Model model){
-        model.addAttribute("notification", new Notification());
+        Notification notification = new Notification();
+//        notification.setGameMaps(new ArrayList<>(20));
+        model.addAttribute("notification", notification);
+        model.addAttribute("gameMap", new GameMap());
         model.addAttribute("allMaps", MapEnum.values());
         model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
         model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
+        model.addAttribute("gamemodes", GamemodeEnum.values());
         return "registration";
+    }
+
+    @PostMapping("/saveNotification")
+    public String saveNotification(@ModelAttribute("notification") Notification notification){
+        System.out.println(notification.toString());
+        return "confirmation";
     }
 
     //OG notification endpoint
