@@ -38,51 +38,52 @@
 <!--    </div>-->
 <!--<form/>-->
 
-<form class="text-light" action="#" th:action="@{/saveNotification}" th:object="${notification}" method="post">
+<form method="POST" class="text-light" action="#" th:action="@{/saveNotification}" th:object="${notification}">
     <table border="1">
         <tr>
             <td>Enter your email: </td>
-            <td><input type="String" th:field="*{email}" /></td>
+            <td><input type="text" th:field="*{email}" /></td>
         </tr>
         <th>Casual Battle Royale: </th>
         <div th:each="map,iter : ${battleRoyaleMaps}">
             <tr>
                 <td>
-                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].name}" th:value="${map.name}"/>
+                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].name}" th:value="${map}"/>
                     <label th:text="${map.name}"></label>
-<!--                    <input type="hidden" th:field="*{gameMaps[__${iter.index}__].gamemode}" th:value="${T(com.baeldung.thymeleaf.model.GamemodeEnum).BATTLE_ROYALE}"/>-->
-                    <!--                    seems unnecessary | th:for="${#ids.prev('gameMaps')}"-->
-
+                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].gamemode}" th:value="${map.casual}"/>
                 </td>
             </tr>
         </div>
-<!--        <th>Casual Arena: </th>-->
-<!--        <div th:each="map : ${arenaMaps}">-->
-<!--            <tr>-->
-<!--                <td>-->
-<!--                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />-->
-<!--                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--        </div>-->
-<!--        <th>Competitive Battle Royale: </th>-->
-<!--        <div th:each="map : ${battleRoyaleMaps}">-->
-<!--            <tr>-->
-<!--                <td>-->
-<!--                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />-->
-<!--                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--        </div>-->
-<!--        <th>Competitive Arena: </th>-->
-<!--        <div th:each="map : ${arenaMaps}">-->
-<!--            <tr>-->
-<!--                <td>-->
-<!--                    <input type="checkbox" th:field="*{gameMaps}" th:value="${map}" />-->
-<!--                    <label th:for="${#ids.prev('gameMaps')}" th:text="${map.name}"></label>-->
-<!--                </td>-->
-<!--            </tr>-->
-<!--        </div>-->
+        <th>Casual Arena: </th>
+        <div th:each="map,iter : ${arenaMaps}">
+            <tr>
+                <td>
+                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].name}" th:value="${map}"/>
+                    <label th:text="${map.name}"></label>
+                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].gamemode}" th:value="${map.casual}"/>
+                </td>
+            </tr>
+        </div>
+        <th>Competitive Battle Royale: </th>
+        <div th:each="map,iter : ${battleRoyaleMaps}">
+            <tr>
+                <td>
+                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].name}" th:value="${map}"/>
+                    <label th:text="${map.name}"></label>
+                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].gamemode}" th:value="${map.ranked}"/>
+                </td>
+            </tr>
+        </div>
+        <th>Competitive Arena: </th>
+        <div th:each="map,iter : ${arenaMaps}">
+            <tr>
+                <td>
+                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].name}" th:value="${map}"/>
+                    <label th:text="${map.name}"></label>
+                    <input type="checkbox" th:field="*{gameMaps[__${iter.index}__].gamemode}" th:value="${map.ranked}"/>
+                </td>
+            </tr>
+        </div>
         <tr>
             <td><input type="submit" value="Submit" /></td>
         </tr>

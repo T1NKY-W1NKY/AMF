@@ -114,7 +114,7 @@ public class AMFController {
     @GetMapping("/registration")
     public String showRegistrationForm(Model model){
         Notification notification = new Notification();
-//        notification.setGameMaps(new ArrayList<>(20));
+        notification.setGameMaps(new ArrayList<>());
         model.addAttribute("notification", notification);
         model.addAttribute("gameMap", new GameMap());
         model.addAttribute("allMaps", MapEnum.values());
