@@ -5,35 +5,42 @@ import java.util.List;
 
 public enum MapEnum {
 
-    DROPOFF (GamemodeEnum.ARENAS, GamemodeEnum.ARENAS_RANKED, "Drop Off"),
-    ENCORE (GamemodeEnum.ARENAS, GamemodeEnum.ARENAS_RANKED, "Encore"),
+    RANKED_DROPOFF (GamemodeEnum.ARENAS_RANKED, "Drop Off"),
+    RANKED_ENCORE (GamemodeEnum.ARENAS_RANKED, "Encore"),
     //Habitat is named "Habitat 4" officially
-    HABITAT (GamemodeEnum.ARENAS, GamemodeEnum.ARENAS_RANKED, "Habitat"),
-    OVERFLOW (GamemodeEnum.ARENAS, GamemodeEnum.ARENAS_RANKED, "Overflow"),
-    PARTY_CRASHER (GamemodeEnum.ARENAS, GamemodeEnum.ARENAS_RANKED,"Party Crasher"),
-    PHASE_RUNNER (GamemodeEnum.ARENAS, GamemodeEnum.ARENAS_RANKED, "Phase Runner"),
-    STORM_POINT (GamemodeEnum.BATTLEROYALE, GamemodeEnum.BATTLEROYALE_RANKED, "Storm Point"),
-    WORLDS_EDGE (GamemodeEnum.BATTLEROYALE, GamemodeEnum.BATTLEROYALE_RANKED, "World's Edge"),
-    KINGS_CANYON (GamemodeEnum.BATTLEROYALE, GamemodeEnum.BATTLEROYALE_RANKED, "Kings Canyon"),
-    OLYMPUS (GamemodeEnum.BATTLEROYALE, GamemodeEnum.BATTLEROYALE_RANKED, "Olympus");
+    RANKED_HABITAT (GamemodeEnum.ARENAS_RANKED, "Habitat"),
+    RANKED_OVERFLOW (GamemodeEnum.ARENAS_RANKED, "Overflow"),
+    RANKED_PARTY_CRASHER (GamemodeEnum.ARENAS_RANKED,"Party Crasher"),
+    RANKED_PHASE_RUNNER (GamemodeEnum.ARENAS_RANKED, "Phase Runner"),
+    RANKED_STORM_POINT (GamemodeEnum.BATTLEROYALE_RANKED, "Storm Point"),
+    RANKED_WORLDS_EDGE (GamemodeEnum.BATTLEROYALE_RANKED, "World's Edge"),
+    RANKED_KINGS_CANYON (GamemodeEnum.BATTLEROYALE_RANKED, "Kings Canyon"),
+    RANKED_OLYMPUS (GamemodeEnum.BATTLEROYALE_RANKED, "Olympus"),
+    CASUAL_DROPOFF (GamemodeEnum.ARENAS, "Drop Off"),
+    CASUAL_ENCORE (GamemodeEnum.ARENAS, "Encore"),
+    //Habitat is named "Habitat 4" officially
+    CASUAL_HABITAT (GamemodeEnum.ARENAS, "Habitat"),
+    CASUAL_OVERFLOW (GamemodeEnum.ARENAS, "Overflow"),
+    CASUAL_PARTY_CRASHER (GamemodeEnum.ARENAS,"Party Crasher"),
+    CASUAL_PHASE_RUNNER (GamemodeEnum.ARENAS, "Phase Runner"),
+    CASUAL_STORM_POINT (GamemodeEnum.BATTLEROYALE, "Storm Point"),
+    CASUAL_WORLDS_EDGE (GamemodeEnum.BATTLEROYALE, "World's Edge"),
+    CASUAL_KINGS_CANYON (GamemodeEnum.BATTLEROYALE, "Kings Canyon"),
+    CASUAL_OLYMPUS (GamemodeEnum.BATTLEROYALE, "Olympus");
 
 
-    private GamemodeEnum casual;
-
-    private GamemodeEnum ranked;
-
+    private GamemodeEnum gamemode;
     private String name;
 
-    MapEnum(GamemodeEnum casual, GamemodeEnum ranked, String name) {
-        this.casual = casual;
-        this.ranked = ranked;
+    MapEnum(GamemodeEnum gamemode, String name) {
+        this.gamemode = gamemode;
         this.name = name;
     }
 
     public static List<MapEnum> getGamemodeMaps(GamemodeEnum gamemodeEnum){
         List<MapEnum> maps = new ArrayList<>();
         for(MapEnum map : MapEnum.values()){
-            if(map.casual == gamemodeEnum || map.ranked == gamemodeEnum){
+            if(map.gamemode == gamemodeEnum){
                 maps.add(map);
             }
         }
@@ -44,11 +51,7 @@ public enum MapEnum {
         return name;
     }
 
-    public GamemodeEnum getCasual(){
-        return casual;
-    }
-
-    public GamemodeEnum getRanked(){
-        return ranked;
+    public GamemodeEnum getGamemode(){
+        return gamemode;
     }
 }
