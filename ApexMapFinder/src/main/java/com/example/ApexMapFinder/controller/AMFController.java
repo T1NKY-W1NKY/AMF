@@ -124,6 +124,17 @@ public class AMFController {
         return "registration";
     }
 
+    @GetMapping("/notificationSignUp")
+    public String notificationSignUp(Model model){
+        Notification notification = new Notification();
+        notification.setGameMaps(new ArrayList<>());
+        model.addAttribute("notification", notification);
+        model.addAttribute("arenaRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS_RANKED));
+        model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
+        model.addAttribute("battleRoyaleRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE_RANKED));
+        model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
+        return "notificationSignup";
+    }
     @PostMapping("/saveNotification")
     public String saveNotification(@ModelAttribute("notification") Notification notification){
         System.out.println(notification.toString());

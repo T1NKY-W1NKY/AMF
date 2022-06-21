@@ -16,7 +16,9 @@ public class Notification {
     String email;
 
     @ElementCollection
-    List<GameMap> gameMaps;
+    List<MapEnum> gameMaps;
+//    @ElementCollection
+//    List<GameMap> gameMaps;
 
     public Notification(){
 
