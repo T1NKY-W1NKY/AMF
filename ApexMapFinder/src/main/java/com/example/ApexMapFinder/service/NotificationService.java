@@ -13,7 +13,7 @@ public class NotificationService {
     @Autowired
     private NotificationDAO notificationDAO;
 
-    public void save(Notification notification) {
+    public void saveNotification(Notification notification) {
         notificationDAO.save(notification);
     }
 

@@ -111,23 +111,22 @@ public class AMFController {
         return amfService.getAllPlayers();
     }
 
-    @GetMapping("/registration")
-    public String showRegistrationForm(Model model){
-        Notification notification = new Notification();
-        notification.setGameMaps(new ArrayList<>());
-        model.addAttribute("notification", notification);
-        model.addAttribute("gameMap", new GameMap());
-        model.addAttribute("allMaps", MapEnum.values());
-        model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
-        model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
-        model.addAttribute("gamemodes", GamemodeEnum.values());
-        return "registration";
-    }
+//    @GetMapping("/registration")
+//    public String showRegistrationForm(Model model){
+//        Notification notification = new Notification();
+//        notification.setGameMaps(new ArrayList<>());
+//        model.addAttribute("notification", notification);
+//        model.addAttribute("gameMap", new GameMap());
+//        model.addAttribute("allMaps", MapEnum.values());
+//        model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
+//        model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
+//        model.addAttribute("gamemodes", GamemodeEnum.values());
+//        return "registration";
+//    }
 
     @GetMapping("/notificationSignUp")
     public String notificationSignUp(Model model){
         Notification notification = new Notification();
-        notification.setGameMaps(new ArrayList<>());
         model.addAttribute("notification", notification);
         model.addAttribute("arenaRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS_RANKED));
         model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
@@ -138,6 +137,8 @@ public class AMFController {
     @PostMapping("/saveNotification")
     public String saveNotification(@ModelAttribute("notification") Notification notification){
         System.out.println(notification.toString());
+        notificationSerivce.saveNotification(notification);
+        System.out.println(notificationSerivce.getNotification(notification.getEmail()));
         return "confirmation";
     }
 

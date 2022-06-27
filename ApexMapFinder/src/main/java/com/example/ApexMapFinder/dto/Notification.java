@@ -5,6 +5,7 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Map;
 
 @Entity
 @Data
@@ -13,9 +14,17 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
+
+    //makes email need to be unique, not best solution; i dont think
+    @Column(unique = true)
     String email;
 
-    @ElementCollection
+//    @Enumerated
+//    @ElementCollection(targetClass = MapEnum.class)
+//    @CollectionTable
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "gameMaps", joinColumns = @JoinColumn(name = "notification_id"))
+    @Enumerated(EnumType.STRING)
     List<MapEnum> gameMaps;
 //    @ElementCollection
 //    List<GameMap> gameMaps;
