@@ -14,14 +14,14 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.AUTO)
     Integer id;
 
-    @NotNull
+//    @NotNull
     String email;
 //    @ElementCollection
 //    List<String> gamemodes;
 
     //each map with start with the gamemode they are attributed to:
     //BR_KingsCanyon | A_DropOff | RBR_Olympus | RA_PhaseRunner
-    @NotNull
+//    @NotNull
     @ElementCollection
     List<String> maps;
 //    Map<String, List<String>> mapList;
