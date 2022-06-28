@@ -111,19 +111,6 @@ public class AMFController {
         return amfService.getAllPlayers();
     }
 
-//    @GetMapping("/registration")
-//    public String showRegistrationForm(Model model){
-//        Notification notification = new Notification();
-//        notification.setGameMaps(new ArrayList<>());
-//        model.addAttribute("notification", notification);
-//        model.addAttribute("gameMap", new GameMap());
-//        model.addAttribute("allMaps", MapEnum.values());
-//        model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
-//        model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
-//        model.addAttribute("gamemodes", GamemodeEnum.values());
-//        return "registration";
-//    }
-
     @GetMapping("/notificationSignUp")
     public String notificationSignUp(Model model){
         Notification notification = new Notification();
@@ -132,7 +119,7 @@ public class AMFController {
         model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
         model.addAttribute("battleRoyaleRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE_RANKED));
         model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
-        return "notificationSignup";
+        return "notificationSignUp";
     }
     @PostMapping("/saveNotification")
     public String saveNotification(@ModelAttribute("notification") Notification notification){
@@ -142,33 +129,4 @@ public class AMFController {
         return "confirmation";
     }
 
-    //OG notification endpoint
-//    @GetMapping("/signup")
-//    public String signup(){
-//
-//        return "signUp";
-//    }
-//    @GetMapping("/save")
-//    public String saveUser(@RequestParam MultiValueMap<String, String> allParams /*@RequestParam(value = "email", required = true) String email, @RequestParam(value = "br")List<String> battleRoyaleMaps), @RequestParam(value = "ar")List<String> arenas*/){
-//        //Problem: when page reloads existing data is inserted b/c still in url
-//        System.out.println(allParams.get("email").toString());
-//        System.out.println(allParams.get("br").toString());
-//        System.out.println(allParams.get("ar").toString());
-//
-//        List<String> maps = new ArrayList<>();
-//        for(String map : allParams.get("br")){
-//            maps.add("br_" + map);
-//        }
-//        for(String map : allParams.get("ar")){
-//            maps.add("ar_" + map);
-//        }
-//        Notification notification = new Notification();
-//        notification.setEmail(allParams.get("email").get(0));
-//        notification.setMaps(maps);
-//
-//        notificationSerivce.save(notification);
-//        System.out.println(notification.toString());
-////        notificationSerivce.saveNotification(notification);
-//        return "confirmation";
-//    }
 }
