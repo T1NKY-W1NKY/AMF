@@ -128,8 +128,15 @@ public class AMFService {
         return mapImage;
     }
 
-    public Player getPlayer(String name){
-        return playerDAO.findByPlayerName(name);
+    //searches amf database and if cant find player there checks the Apex Legends API
+    public Player getPlayerByName(String name){
+        Player player = playerDAO.findByPlayerName(name);
+        if(player != null){
+            return player;
+        }
+        else{
+            return apiPlayerSearch(name);
+        }
     }
 
     public List<Player>  getAllPlayers(){
@@ -138,7 +145,7 @@ public class AMFService {
 
 
     //does this method save a new player or update an existing one?
-    public Player updatePlayer(String name){
+    public Player apiPlayerSearch(String name){
 
         //Look into httpclient instead of webclient | https://www.baeldung.com/httpclient4
         String playerJson = webClient.get()
@@ -155,8 +162,12 @@ public class AMFService {
             jsonProcessingException.printStackTrace();
         }
 
-        return playerDAO.savePlayer(player);
+        return player;
 
+    }
+
+    public Player savePlayer(Player player){
+        return playerDAO.savePlayer(player);
     }
 
     public List<Player> updateAllPlayers(){
@@ -222,7 +233,7 @@ public class AMFService {
         //adds a slight update delay in case the apex api takes a moment to update itself (rounds up to nearest 10s place)
         //increases update delay by a maximum of ten seconds; could be a problem is there is not update delay and errors occurs
 //        long roundUp = 10 - lowestTime % 10;
-        long roundUp = 3;
+        long roundUp = 7;
         log.info((String.valueOf((lowestTime + roundUp) * 100)));
 
         //(* 1000) to go to milliseconds from seconds

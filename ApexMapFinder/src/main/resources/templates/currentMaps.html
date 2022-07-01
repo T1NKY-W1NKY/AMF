@@ -20,6 +20,16 @@
 <body>
 <div th:replace="fragments/navbar :: navbar"></div>
 
+<div class="container-lg my-5">
+  <div class="row justify-content-center">
+    <!-- #181a1b | Color used on border to match background of body -->
+    <div class="col-md-5 bg-dark d-none d-md-block rounded">
+      <h1 class="text-center text-light fw-bold my-3">Current Maps</h1>
+    </div>
+
+  </div>
+</div>
+
 <section id="casual">
   <div class="container-lg my-5 bg-dark rounded">
     <div class="row justify-content-center border-bottom border-5 border-color" style="border-color: #181a1b !important;">
@@ -119,7 +129,7 @@
 
         // If the count down is over and its been 5 seconds (5000ms), reload page w/ new map data
         if (distance < 0) {
-          if(distance < -5000){
+          if(distance < -10000){
               location.reload();
           }
           return "Loading Map...";

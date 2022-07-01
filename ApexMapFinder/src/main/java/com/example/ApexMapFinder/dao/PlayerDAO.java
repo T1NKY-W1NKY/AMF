@@ -23,6 +23,7 @@ public class PlayerDAO {
                 return player;
             }
         }
+
         //TODO: return player not found
         return null;
     }
@@ -42,8 +43,8 @@ public class PlayerDAO {
         if(findByPlayerName(player.getGlobal().getName()) == null) {
             return playerRepository.save(player);
         }
-        //TODO: return error message if player already exists
-        return null;
+        //TODO: return error message if player already exists, currently is returning existing player because 
+        return findByPlayerName(player.getGlobal().getName());
     }
 
     //TODO: add functionality for either a player id or name to update given player with new one
