@@ -15,17 +15,17 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-center">
-          <li class="nav-item active">
-            <a th:classappend="${#request.requestURI == '/' ? 'active':''}" class="nav-link" th:href="@{/}">Home</a>
+<!--          <li class="nav-item active">-->
+<!--            <a th:classappend="${#request.requestURI == '/' ? 'fw-bold active':''}" class="nav-link" th:href="@{/}">Home</a>-->
+<!--          </li>-->
+          <li class="nav-item">
+            <a th:classappend="${#request.requestURI == '/current' ? 'fw-bold active':''}" class="nav-link" th:href="@{/current}">Current Maps</a>
           </li>
           <li class="nav-item">
-            <a th:classappend="${#request.requestURI == '/current' ? 'active':''}" class="nav-link" th:href="@{/current}">Current Maps</a>
+            <a th:classappend="${#request.requestURI == '/next' ? 'fw-bold active':''}" class="nav-link" th:href="@{/next}">Next Maps</a>
           </li>
           <li class="nav-item">
-            <a th:classappend="${#request.requestURI == '/next' ? 'active':''}" class="nav-link" th:href="@{/next}">Next Maps</a>
-          </li>
-          <li class="nav-item">
-            <a th:classappend="${#request.requestURI == '/notificationSignUp' ? 'active':''}" class="nav-link" th:href="@{/notificationSignUp}">Notifications</a>
+            <a th:classappend="${#request.requestURI == '/notificationSignUp' ? 'fw-bold active':''}" class="nav-link" th:href="@{/notificationSignUp}">Notifications</a>
           </li>
         </ul>
         <form class="d-flex me-3" th:action="@{/player}" method="GET">
