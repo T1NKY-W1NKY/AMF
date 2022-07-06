@@ -23,7 +23,7 @@
 <div class="container-lg my-5">
   <div class="row justify-content-center">
     <!-- #181a1b | Color used on border to match background of body -->
-    <div class="col-md-5 bg-dark d-none d-md-block rounded">
+    <div class="col-lg-5 bg-dark rounded">
       <h1 class="text-center text-light fw-bold my-3">Current Maps</h1>
     </div>
 
@@ -32,27 +32,28 @@
 
 <section id="casual">
   <div class="container-lg my-5 bg-dark rounded">
-    <div class="row justify-content-center border-bottom border-5 border-color" style="border-color: #181a1b !important;">
+    <div class="row justify-content-center border-bottom border-5 border-warning" >
+<!--      class="border-color" | style="border-color: #181a1b !important;"-->
       <!-- #181a1b | Color used on border to match background of body -->
-      <div class="col-md-5 d-none d-md-block">
+      <div class="col-lg-5 d-none d-lg-block">
         <h3 class="text-center text-light fw-bold my-3">Battle Royale</h3>
       </div>
-      <div class="col-md-2">
-        <h1 class="text-center text-light fw-bold my-2">Casual</h1>
+      <div class="col-lg-2">
+        <h1 class="text-center text-warning fw-bold my-2">Casual</h1>
       </div>
-      <div class="col-md-5 d-none d-md-block">
+      <div class="col-lg-5 d-none d-lg-block">
         <h3 class="text-center text-light fw-bold my-3">Arenas</h3>
       </div>
 
     </div>
     <div class="row justify-content-center">
-      <div class="col-md-6">
+      <div class="col-lg-6">
         <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentBR}" alt="BR Image"/>
         <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
         <!--            <p class="lead text-center text-light fw-bold" th:text="${amf.battleRoyale.current.map} + ' - ' + ${amf.battleRoyale.current.remainingTimer}"></p>-->
         <p id="battleRoyale" class="lead text-center text-light fw-bold mt-2">ㅤ</p>
       </div>
-      <div class="col-md-6">
+      <div class="col-lg-6">
         <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentArena}" alt="Arenas Image"/>
         <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
         <!--            <p class="lead text-center text-light fw-bold" th:text="${amf.arenas.current.map} + ' - ' +${amf.arenas.current.remainingTimer}"></p>-->
@@ -67,25 +68,25 @@
 
     <div class="row justify-content-center border-bottom border-5 border-danger">
       <!-- #181a1b | Color used on border to match background of body -->
-      <div class="col-md-5 d-none d-md-block">
+      <div class="col-lg-5 d-none d-lg-block">
         <h3 class="text-center text-light fw-bold my-3">Battle Royale</h3>
       </div>
-      <div class="col-md-2">
-        <h1 class="text-center text-light fw-bold my-2">Competitive</h1>
+      <div class="col-lg-2">
+        <h1 class="text-center text-danger fw-bold my-2">Competitive</h1>
       </div>
-      <div class="col-md-5 d-none d-md-block">
+      <div class="col-lg-5 d-none d-lg-block">
         <h3 class="text-center text-light fw-bold my-3">Arenas</h3>
       </div>
     </div>
 
     <div class="row justify-content-center">
-      <div class="col-md-6">
+      <div class="col-lg-6">
         <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentRanked}" alt="BR Ranked Image"/>
         <p id="battleRoyaleRanked" class="lead text-center text-light fw-bold mt-2">ㅤ</p>
         <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
         <!--        <p class="lead text-center text-light fw-bold mt-2" th:text="${amf.ranked.current.map}"></p>-->
       </div>
-      <div class="col-md-6">
+      <div class="col-lg-6">
         <img class="img-fluid rounded d-block m-auto mt-3" th:src="${currentArenaRanked}" alt="Arenas Ranked Image"/>
         <!-- Line below is commented because JS replaces the empty p tag below it with text        -->
         <!--            <p class="lead text-center text-light fw-bold" th:text="${amf.arenasRanked.current.map} + ' - ' +${amf.arenasRanked.current.remainingTimer}"></p>-->

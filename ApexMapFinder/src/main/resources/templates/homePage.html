@@ -32,8 +32,8 @@
         width: 100%;
       }
       .vertical-center {
-          min-height: 80%;  /* Fallback for browsers do NOT support vh unit */
-          min-height: 80vh; /* These two lines are counted as one :-)       */
+          min-height: 69%;  /* Fallback for browsers do NOT support vh unit */
+          min-height: 69vh; /* These two lines are counted as one :-)       */
           justify-content: center;
 
           display: flex;
@@ -50,23 +50,27 @@
 <div class="content">
     <div th:replace="fragments/navbar :: navbar"></div>
 
-    <div class="container-lg my-5 vertical-center">
-        <div class="row justify-content-center">
-            <div class="col">
-                <h1 class="text-center text-light fw-bold">Welcome to Apex Map Finder!</h1>
+    <div class="container-lg my-5">
+        <div class="row justify-content-center  vertical-center">
+            <div class="col-12">
+                <h1 class="text-center text-warning fw-bold">Welcome to Apex Map Finder!</h1>
+                <p class="text-center text-light lead fw-bold">Be informed on everything map related and more in Apex Legends.<br/>
+                    Use the navbar above to find what current maps are up or which ones will be next.<br/>
+                    You can also sign up to be notified when your favorite maps next enter rotation.
+                </p>
             </div>
         </div>
-        <div class="row justify-content-center">
-            <div class="col-3">
+<!--        <div class="row justify-content-center">-->
+<!--            <div class="col-4">-->
 <!--                <h3 class="text-center text-light fw-bold">View current maps</h3>-->
-            </div>
-            <div class="col-3">
+<!--            </div>-->
+<!--            <div class="col-4">-->
 <!--                <h3 class="text-center text-light fw-bold">View next maps</h3>-->
-            </div>
-            <div class="col-3">
+<!--            </div>-->
+<!--            <div class="col-4">-->
 <!--                <h3 class="text-center text-light fw-bold">Sign up to be notified when maps are live</h3>-->
-            </div>
-        </div>
+<!--            </div>-->
+<!--        </div>-->
     </div>
 
 </div>
