@@ -42,6 +42,7 @@ public class AMFService {
     public AMF getAMF() {
 
         AMF amf = amfDAO.getAMF();
+        //backup if updateAMF from the timer gets messed up since it happens occasionally
         if(amf == null){
             amf = updateAMF();
         }
