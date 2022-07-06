@@ -42,7 +42,7 @@ public class AMFController {
         model.addAttribute("currentArena", currentArenaImg);
         model.addAttribute("nextArena", nextArenaImg);
 
-        return "greeting";
+        return "homePage";
     }
 
     @GetMapping("/map_prototype")
