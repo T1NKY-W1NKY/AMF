@@ -47,6 +47,9 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
         return Executors.newSingleThreadScheduledExecutor();
     }
 
+//    IF AMF HAS A NULL VALUE THIS IS LIKELY WHY!!!!
+//    It happens when both the local and heroku apps are running since they go to access the API at the same time. JSON response:
+//    "Error":"Slow down ! You're being throttled. You have 1 requests every 2 seconds allowed, but you're currently at 2 req/s. To upgrade your rate limit, verify your Discord account on https://portal.apexlegendsapi.com/discord-auth"
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
         taskRegistrar.setScheduler(taskExecutor());
@@ -55,14 +58,8 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                     @Override
                     public void run() {
                         log.info("Attempting to update AMF...\n");
-                        try{
-                            amfService.updateAMF();
-                            log.info("Updated AMF: " + amfService.getAMF().toString());
-                        }
-                        catch (Exception e){
-                            log.error("Failed to update AMF: " + amfService.getAMF().toString());
-                            e.printStackTrace();
-                        }
+                        amfService.updateAMF();
+                        log.info("Updated AMF: " + amfService.getAMF().toString());
 
                         //updates timer countdown data
                         try {
