@@ -55,8 +55,14 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                     @Override
                     public void run() {
                         log.info("Attempting to update AMF...\n");
-                        amfService.updateAMF();
-                        log.info("Updated AMF: " + amfService.getAMF().toString());
+                        try{
+                            amfService.updateAMF();
+                            log.info("Updated AMF: " + amfService.getAMF().toString());
+                        }
+                        catch (Exception e){
+                            log.error("Failed to update AMF: " + amfService.getAMF().toString());
+                            e.printStackTrace();
+                        }
 
                         //updates timer countdown data
                         try {

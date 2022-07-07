@@ -60,7 +60,9 @@ public class AMFService {
                 .block();
         try {
             amf = mapper.readValue(jsonString, AMF.class);
+            log.info("New AMF: " + amf.toString());
         } catch (JsonProcessingException jsonProcessingException) {
+            log.warn("Something went wrong with the API or mapping to AMF object");
             jsonProcessingException.printStackTrace();
         }
         //DB check

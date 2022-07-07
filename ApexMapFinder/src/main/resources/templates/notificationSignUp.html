@@ -77,7 +77,7 @@
                 </div>
 
                 <div class="col-md-3 col-sm-6">
-                    <h4 class=" text-light fw-bold my-3">Competitive Battle&nbsp;Royale:</h4>
+                    <h4 class=" text-light fw-bold my-3">Ranked Battle&nbsp;Royale:</h4>
                     <div th:each="map : ${battleRoyaleRankedMaps}">
 
                         <input type="checkbox" th:field="*{gameMaps}" th:value="${map}"/>
@@ -86,7 +86,7 @@
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6">
-                    <h4 class="text-light fw-bold my-3">Competitive Arena:</h4>
+                    <h4 class="text-light fw-bold my-3">Ranked Arena:</h4>
                     <div th:each="map : ${arenaRankedMaps}">
 
                         <input type="checkbox" th:field="*{gameMaps}" th:value="${map}"/>
