@@ -40,13 +40,7 @@ public class AMFService {
 
     //returns amf from db
     public AMF getAMF() {
-
-        AMF amf = amfDAO.getAMF();
-        //backup if updateAMF from the timer gets messed up since it happens occasionally
-        if(amf == null){
-            amf = updateAMF();
-        }
-        return amf;
+        return amfDAO.getAMF();
     }
 
     public HashMap<String, Long> getEndTimer() {
