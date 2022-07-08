@@ -22,7 +22,7 @@ Backend technology stack:
 - View current and next maps in rotation
 - A timer for each gamemode to see when the maps will change
 - Player Search (WIP)
-- Notification service which will notified users via email when their specified maps are coming up
+- Notification service which will notifiy users via email when their specified maps are coming up (WIP)
 
 ## Setup
 
