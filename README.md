@@ -31,4 +31,4 @@ Backend technology stack:
 ## Project Status
 
 View the current website at: https://apex-map-finder.herokuapp.com  
-More features will continually being added, there is no set schedule for updates
+More features are continually being added, there is no set schedule for updates
