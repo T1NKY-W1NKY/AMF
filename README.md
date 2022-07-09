@@ -26,18 +26,19 @@ Backend technology stack:
 
 ## Setup
 
-(WIP)
 To run this project, install it locally with git:
 `git clone https://github.com/StonelnFocus/AMF`
 
-You will also need to stand up a mySQL database 
+You will also need to stand up a mySQL database, this can be done with the  
 
 Environment Variables:
 ```
-APEX_API_KEY = [Your own Apex Legends API key (see here to generate one: https://portal.apexlegendsapi.com/)]
-MYSQL_DB_USERNAME = [Username for local mySQL database]
-MYSQL_DB_PASSWORD = [Password for local mySQL database]
+APEX_API_KEY = [Your own Apex Legends API key[^1]]
+MYSQL_DB_USERNAME = [Username for local mySQL database[^2]]
+MYSQL_DB_PASSWORD = [Password for local mySQL database[^2]]
 ```
+[^1]: See here to generate one: https://portal.apexlegendsapi.com/
+[^2]: If using docker-compose, set this to what is in the file
 
 ## Project Status
 
