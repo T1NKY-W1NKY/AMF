@@ -29,7 +29,7 @@ Backend technology stack:
 To run this project, install it locally with git:
 `git clone https://github.com/StonelnFocus/AMF`
 
-You will also need to stand up a mySQL database, this can be done with the  
+You will also need to stand up a mySQL database, this can be using the docker-compose.yml file or some other way.
 
 Environment Variables:
 ```
