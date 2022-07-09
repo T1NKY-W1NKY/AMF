@@ -37,6 +37,7 @@ Environment Variables:
 APEX_API_KEY = Your own Apex Legends API key (see here to generate one: https://portal.apexlegendsapi.com/)
 MYSQL_DB_USERNAME = Username for local mySQL database
 MYSQL_DB_PASSWORD = Password for local mySQL database
+```
 
 ## Project Status
 
