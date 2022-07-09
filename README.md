@@ -33,12 +33,12 @@ You will also need to stand up a mySQL database, this can be done with the
 
 Environment Variables:
 ```
-APEX_API_KEY = [Your own Apex Legends API key[^1]]
-MYSQL_DB_USERNAME = [Username for local mySQL database[^2]]
-MYSQL_DB_PASSWORD = [Password for local mySQL database[^2]]
+APEX_API_KEY = [Your own Apex Legends API key*]
+MYSQL_DB_USERNAME = [Username for local mySQL database**]
+MYSQL_DB_PASSWORD = [Password for local mySQL database**]
 ```
-[^1]: See here to generate one: https://portal.apexlegendsapi.com/
-[^2]: If using docker-compose, set this to what is in the file
+\*See here to generate one: https://portal.apexlegendsapi.com/  
+\*\*If using docker-compose, set this to what is in the file
 
 ## Project Status
 
