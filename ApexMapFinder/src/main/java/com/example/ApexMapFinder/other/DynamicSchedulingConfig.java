@@ -31,10 +31,10 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 
 
     //cron job to update player repository every day
-    @Scheduled(cron = "0 0 * * * ?")
-    public void scheduledDailyPlayerUpdates(){
-        amfService.updateAllPlayers();
-    }
+//    @Scheduled(cron = "0 0 * * * ?")
+//    public void scheduledDailyPlayerUpdates(){
+//        amfService.updateAllPlayers();
+//    }
 
     //method to create active countdown timer for maps
     @Scheduled(fixedDelay = 1000)

@@ -61,6 +61,7 @@ public class AMFService {
         try {
             amf = mapper.readValue(jsonString, AMF.class);
         } catch (JsonProcessingException jsonProcessingException) {
+            log.warn(jsonString);
             jsonProcessingException.printStackTrace();
         }
         //DB check
@@ -129,6 +130,8 @@ public class AMFService {
     }
 
     //searches amf database and if cant find player there checks the Apex Legends API
+    //the logic is fucked since we are using player origin names for everything but they are not being saved to the database currently
+    // and have the players use steam so if someone searches a steam players name up, nothing will show
     public Player getPlayerByName(String name){
         Player player = playerDAO.findByPlayerName(name);
         if(player != null){
@@ -159,6 +162,7 @@ public class AMFService {
         try {
             player = mapper.readValue(playerJson, Player.class);
         } catch (JsonProcessingException jsonProcessingException) {
+            log.warn(playerJson);
             jsonProcessingException.printStackTrace();
         }
 
@@ -170,6 +174,7 @@ public class AMFService {
         return playerDAO.savePlayer(player);
     }
 
+    //theres no way this actually works because I am limited to 1 request every 2 seconds
     public List<Player> updateAllPlayers(){
         List<Player> allPlayers = playerDAO.getAllPlayers();
 

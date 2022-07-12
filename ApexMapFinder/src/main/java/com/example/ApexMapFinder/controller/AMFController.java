@@ -111,10 +111,15 @@ public class AMFController {
     }
     //mapping for returning json with certain player data
     @GetMapping("/player")
-    @ResponseBody
-    public Player getPlayer(@RequestParam String name) {
+//    @ResponseBody
+    public String getPlayer(@RequestParam String name, Model model) {
         Player player = amfService.getPlayerByName(name);
-        return player;
+        if(player.getGlobal() == null)
+        {
+            return "playerNotFound";
+        }
+        model.addAttribute("player", player);
+            return "player";
     }
 
     @GetMapping("/players")
