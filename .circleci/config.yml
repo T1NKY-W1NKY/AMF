@@ -2,7 +2,7 @@ version: 2 # use CircleCI 2.0
 jobs: # a collection of steps
   build: # runs not using Workflows must have a `build` job as entry point
 
-    working_directory: ~/ApexMapFinder/ApexMapFinder # directory where steps will run
+    working_directory: ~/AMF/ApexMapFinder # directory where steps will run
 
     docker: # run the steps with Docker
       - image: cimg/openjdk:18.0.1 # ...with this image as the primary container; this is where all `steps` will run
