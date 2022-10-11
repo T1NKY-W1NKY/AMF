@@ -35,3 +35,4 @@ build/
 ### Data secrets ###
 application-dev.properties
 docker-compose.yml
+.idea/runConfigurations/AMF_Config.xml
