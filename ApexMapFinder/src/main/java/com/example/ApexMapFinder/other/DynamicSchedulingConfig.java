@@ -28,7 +28,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     private AMFService amfService;
 
 
-
+//asdf
 
     //cron job to update player repository every day
 //    @Scheduled(cron = "0 0 * * * ?")
