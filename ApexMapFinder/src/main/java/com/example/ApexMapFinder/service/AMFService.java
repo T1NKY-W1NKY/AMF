@@ -119,6 +119,7 @@ public class AMFService {
         mapImages.put("Storm Point", "stormPoint.png");
         mapImages.put("Drop Off", "dropOff2.jpg");
         mapImages.put("Encore", "encore.jpg");
+        mapImages.put("Broken Moon", "broken_moon_2.webp");
 
         //loop through hashmap to find specified map in it
         for(var entry: mapImages.entrySet()){
