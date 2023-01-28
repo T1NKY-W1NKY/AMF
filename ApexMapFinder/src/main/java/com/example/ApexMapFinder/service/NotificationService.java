@@ -29,5 +29,6 @@ public class NotificationService {
     }
 
     public void deleteNotification(String email){
+        notificationDAO.delete(email);
     }
 }

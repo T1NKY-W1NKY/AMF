@@ -138,6 +138,24 @@ public class AMFController {
         model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
         return "notificationSignUp";
     }
+
+    @PostMapping("/deleteNotification")
+    public String deleteNotificationByEmail(@RequestParam String email){
+        log.info("Deleting notifcations for: " + email);
+        try{
+            notificationSerivce.deleteNotification(email);
+        }
+        catch (Exception e){
+            //add a popup notifying there was a problem deleting the email on html page
+            return "redirect:/notificationSignUp";
+        }
+        //not intended HTML mapping for this
+        //maybe add string to model to notify that email was deleted in html page
+        return "confirmation";
+    }
+
+
+
     @PostMapping("/saveNotification")
     public String saveNotification(@ModelAttribute("notification") Notification notification){
         System.out.println(notification.toString());
