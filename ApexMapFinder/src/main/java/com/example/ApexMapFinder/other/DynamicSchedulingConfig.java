@@ -1,6 +1,8 @@
 package com.example.ApexMapFinder.other;
 
+import com.example.ApexMapFinder.dto.Notification;
 import com.example.ApexMapFinder.service.AMFService;
+import com.example.ApexMapFinder.service.NotificationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,8 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     private static final Logger log = LoggerFactory.getLogger(DynamicSchedulingConfig.class);
     @Autowired
     private AMFService amfService;
-
+    @Autowired
+    private NotificationService notificationService;
 
     //cron job to update player repository every day
 //    @Scheduled(cron = "0 0 * * * ?")
@@ -74,6 +77,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                         Long epochTime = null;
                         try {
                             epochTime = amfService.getNextMapTime(amfService.getMapTimes()) + System.currentTimeMillis();
+                            notificationService.sendMapChangeEmail();
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
