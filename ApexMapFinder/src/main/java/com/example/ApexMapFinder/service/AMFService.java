@@ -4,6 +4,7 @@ import com.example.ApexMapFinder.dao.AMFSQLDAO;
 import com.example.ApexMapFinder.dao.PlayerDAO;
 import com.example.ApexMapFinder.dto.AMF;
 import com.example.ApexMapFinder.dto.Gamemode;
+import com.example.ApexMapFinder.dto.GamemodeEnum;
 import com.example.ApexMapFinder.dto.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -250,5 +251,48 @@ public class AMFService {
     //used to decrement map countdown timers in service
     public void decrementCountdown(){
         endTimer.replaceAll((k, v) -> v - 1);
+    }
+
+    //Boolean State values: true - currentMap | false - nextMap
+    //Should this be returning the map as it's enum mapping or a string?
+    //-Probably enum, but enum should also be the value immediately saved
+    //to the map/gamemode values for AMF which are currently strings
+    public String getMapName(Boolean state, GamemodeEnum gamemode){
+        String map = null;
+
+        if(state){
+            switch(gamemode) {
+                case ARENAS:
+                    map = amf.getArenas().getCurrent().getMap();
+                    break;
+                case BATTLEROYALE:
+                    map = amf.getBattleRoyale().getCurrent().getMap();
+                    break;
+                case ARENAS_RANKED:
+                    map = amf.getArenasRanked().getCurrent().getMap();
+                    break;
+                case BATTLEROYALE_RANKED:
+                    map = amf.getRanked().getCurrent().getMap();
+                    break;
+            }
+
+        }
+        else {
+            switch(gamemode) {
+                case ARENAS:
+                    map = amf.getArenas().getNext().getMap();
+                    break;
+                case BATTLEROYALE:
+                    map = amf.getBattleRoyale().getNext().getMap();
+                    break;
+                case ARENAS_RANKED:
+                    map = amf.getArenasRanked().getNext().getMap();
+                    break;
+                case BATTLEROYALE_RANKED:
+                    map = amf.getRanked().getNext().getMap();
+                    break;
+            }
+        }
+        return map;
     }
 }

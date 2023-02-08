@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+import javax.mail.MessagingException;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.Date;
@@ -80,6 +81,8 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             notificationService.sendMapChangeEmail();
                         } catch (ParseException e) {
                             e.printStackTrace();
+                        } catch (MessagingException e) {
+                            throw new RuntimeException(e);
                         }
                         Instant nextExecutionTime = Instant.ofEpochMilli(epochTime);
                         log.info("Next Execution: " + (Date.from(nextExecutionTime)) + " | " + epochTime);
