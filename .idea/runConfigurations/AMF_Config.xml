@@ -4,6 +4,7 @@
       <env name="APEX_API_KEY" value="XxaZO6hTfymkQoBqNqlg" />
       <env name="MYSQL_DB_USERNAME" value="root" />
       <env name="MYSQL_DB_PASSWORD" value="my-secret-pw" />
+      <env name="EMAIL_PASSWORD" value="npxhwenmzdirabns" />
     </envs>
     <option name="MAIN_CLASS_NAME" value="com.example.ApexMapFinder.ApexMapFinderApplication" />
     <module name="ApexMapFinder" />

@@ -1,20 +1,19 @@
 package com.example.ApexMapFinder.service;
 
 import com.example.ApexMapFinder.dao.NotificationDAO;
-import com.example.ApexMapFinder.dto.GameMap;
 import com.example.ApexMapFinder.dto.GamemodeEnum;
 import com.example.ApexMapFinder.dto.MapEnum;
 import com.example.ApexMapFinder.dto.Notification;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
-import javax.mail.internet.MimeMessage;
-import java.sql.Array;
 import java.util.*;
 
 @Service
@@ -24,6 +23,8 @@ public class NotificationService {
     private NotificationDAO notificationDAO;
     @Autowired
     private AMFService amfService;
+    @Autowired
+    private JavaMailSender javaMailSender;
     private static final Logger log = LoggerFactory.getLogger(AMFService.class);
 
     public void saveNotification(Notification notification) {
@@ -85,29 +86,52 @@ public class NotificationService {
         Map<GamemodeEnum, String> nextMaps = getNextMapsToChange();
         log.info(nextMaps.toString());
 
-
+        //Converts all new maps from strings to their enums
+        //Not great implementaion because it iterates through every gamemode and map
         List<Notification> notifications = notificationDAO.getAllNotifications();
         for(GamemodeEnum gamemodeEnum : nextMaps.keySet()){
+            //Get all maps for a gamemode
             List<MapEnum> mapEnums = MapEnum.getGamemodeMaps(gamemodeEnum);
+            //loops through each map in gamemode
             for(MapEnum mapEnum : mapEnums){
-               if(nextMaps.get(gamemodeEnum).equals(mapEnum.getName())){
-                   nextMapEnums.add(mapEnum);
+                //checks if this game map is equal to the new gamemode
+                if(nextMaps.get(gamemodeEnum).equals(mapEnum.getName())){
+                    nextMapEnums.add(mapEnum);
                }
             }
         }
-
         log.info(nextMapEnums.toString());
 
+        Multimap<String, MapEnum> notificationMutliMap = ArrayListMultimap.create();
+        //checks all users to see if they want to be notified on new maps
         for(Notification user : notifications){
-
             for(MapEnum userMap : user.getGameMaps()){
                 for(MapEnum map : nextMapEnums){
                     if(userMap == map){
-                        System.out.println(user.getEmail() + " - " + map);
+                        notificationMutliMap.put(user.getEmail(), map);
                     }
                 }
             }
         }
+        for(String email : notificationMutliMap.keySet()){
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom("apexmapfinder@gmail.com");
+            message.setTo(email);
+            message.setSubject("Map Update");
+
+            String mapList = notificationMutliMap.get(email).toString();
+//            log.info("New Maps: " + mapList);
+//            for(int i = 0; i < notificationMutliMap.get(email).size(); i++){
+//                MapEnum map = notificationMutliMap.get(email).
+//                mapList += map + ", ";
+//
+//            }
+//            for(MapEnum map : notificationMutliMap.get(email)){
+//            }
+            message.setText("New Maps: " + mapList);
+            javaMailSender.send(message);
+        }
 
     }
+
 }
