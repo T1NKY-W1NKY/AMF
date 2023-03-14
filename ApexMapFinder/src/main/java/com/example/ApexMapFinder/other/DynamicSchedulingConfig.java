@@ -80,12 +80,16 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             epochTime = amfService.getNextMapTime(amfService.getMapTimes()) + System.currentTimeMillis();
 
                             //initiates emails for new maps
-                            notificationService.sendMapChangeEmail();
+                            //commented out for now so I dont' get email
+                                //uncomment to resume emailing feature
+                                //catch is commented too
+//                            notificationService.sendMapChangeEmail();
                         } catch (ParseException e) {
                             e.printStackTrace();
-                        } catch (MessagingException e) {
-                            throw new RuntimeException(e);
                         }
+//                        catch (MessagingException e) {
+//                            throw new RuntimeException(e);
+//                        }
                         Instant nextExecutionTime = Instant.ofEpochMilli(epochTime);
                         log.info("Next Execution: " + (Date.from(nextExecutionTime)) + " | " + epochTime);
 

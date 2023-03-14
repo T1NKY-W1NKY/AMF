@@ -81,6 +81,7 @@ public class NotificationService {
         return nextMapsToUpdate;
     }
 
+    //Could probably clean this up with Streams
     public void sendMapChangeEmail() throws MessagingException {
         List<MapEnum> nextMapEnums = new ArrayList<>();
         Map<GamemodeEnum, String> nextMaps = getNextMapsToChange();
