@@ -140,27 +140,32 @@ public class AMFController {
     }
 
     @PostMapping("/deleteNotification")
-    public String deleteNotificationByEmail(@RequestParam String email){
+    public String deleteNotificationByEmail(@RequestParam String email, Model model){
         log.info("Deleting notifcations for: " + email);
         try{
             notificationSerivce.deleteNotification(email);
         }
         catch (Exception e){
             //add a popup notifying there was a problem deleting the email on html page
-            return "redirect:/notificationSignUp";
+            return "redirect:/notificationDeletePage";
         }
         //not intended HTML mapping for this
         //maybe add string to model to notify that email was deleted in html page
+        model.addAttribute("confirmationMessage", "Email successfully deleted!");
         return "confirmation";
     }
 
-
+    @GetMapping("/notificationDeletePage")
+    public String notificationDeletePage(){
+        return "notificationDelete";
+    }
 
     @PostMapping("/saveNotification")
-    public String saveNotification(@ModelAttribute("notification") Notification notification){
+    public String saveNotification(@ModelAttribute("notification") Notification notification, Model model){
         System.out.println(notification.toString());
         notificationSerivce.saveNotification(notification);
         System.out.println(notificationSerivce.getNotification(notification.getEmail()));
+        model.addAttribute("confirmationMessage", "Signup Successful!");
         return "confirmation";
     }
 

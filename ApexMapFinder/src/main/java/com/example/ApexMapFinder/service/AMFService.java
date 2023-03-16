@@ -128,7 +128,8 @@ public class AMFService {
                 mapImage = entry.getValue();
             }
         }
-        return mapImage;
+        //"images/" is directory for all images
+        return "images/" + mapImage;
     }
 
     //searches amf database and if cant find player there checks the Apex Legends API
