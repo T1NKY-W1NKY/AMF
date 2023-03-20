@@ -1,17 +1,16 @@
 package com.example.ApexMapFinder.controller;
 
-import com.example.ApexMapFinder.dto.AMF;
-import com.example.ApexMapFinder.dto.Notification;
-import com.example.ApexMapFinder.dto.Player;
+import com.example.ApexMapFinder.dto.*;
+import com.example.ApexMapFinder.other.DynamicSchedulingConfig;
 import com.example.ApexMapFinder.service.AMFService;
 import com.example.ApexMapFinder.service.NotificationService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 //not @RestController b/c then getGreeting would return String "greeting"
@@ -22,6 +21,9 @@ public class AMFController {
     private AMFService amfService;
     @Autowired
     private NotificationService notificationSerivce;
+
+    private static final Logger log = LoggerFactory.getLogger(DynamicSchedulingConfig.class);
+
 
     //Method to get current api making an api call n such
     @GetMapping("/amf")
@@ -34,19 +36,19 @@ public class AMFController {
     //test for returning an html response
     @GetMapping("/")
     public String index(Model model) {
-        AMF amfPOJO = amfService.getAMF();
-        String currentBRImg = amfService.getMapImage("current", "battleRoyale");
-        String nextBRImg = amfService.getMapImage("next", "battleRoyale");
-        String currentArenaImg = amfPOJO.getArenas().getCurrent().getMap();
-        String nextArenaImg = amfPOJO.getArenas().getNext().getMap();
+//        AMF amfPOJO = amfService.getAMF();
+//        String currentBRImg = amfService.getMapImage("current", "battleRoyale");
+//        String nextBRImg = amfService.getMapImage("next", "battleRoyale");
+//        String currentArenaImg = amfPOJO.getArenas().getCurrent().getMap();
+//        String nextArenaImg = amfPOJO.getArenas().getNext().getMap();
+//
+//        model.addAttribute(amfPOJO);
+//        model.addAttribute("current", currentBRImg);
+//        model.addAttribute("next", nextBRImg);
+//        model.addAttribute("currentArena", currentArenaImg);
+//        model.addAttribute("nextArena", nextArenaImg);
 
-        model.addAttribute(amfPOJO);
-        model.addAttribute("current", currentBRImg);
-        model.addAttribute("next", nextBRImg);
-        model.addAttribute("currentArena", currentArenaImg);
-        model.addAttribute("nextArena", nextArenaImg);
-
-        return "greeting";
+        return "homePage";
     }
 
     @GetMapping("/map_prototype")
@@ -67,6 +69,10 @@ public class AMFController {
     @GetMapping("/current")
     public String currentMaps(Model model) {
         AMF amf = amfService.getAMF();
+        if(amf == null){
+            log.info("null amf");
+            amf = amfService.updateAMF();
+        }
         model.addAttribute("amf", amf);
 
         model.addAttribute("currentBR", amfService.getMapImage("current", "battleRoyale"));
@@ -85,6 +91,10 @@ public class AMFController {
     @GetMapping("/next")
     public String nextMaps(Model model) {
         AMF amf = amfService.getAMF();
+        if(amf == null){
+            log.info("null amf");
+            amf = amfService.updateAMF();
+        }
         model.addAttribute("amf", amf);
 
         model.addAttribute("nextBR", amfService.getMapImage("next", "battleRoyale"));
@@ -101,9 +111,15 @@ public class AMFController {
     }
     //mapping for returning json with certain player data
     @GetMapping("/player")
-    @ResponseBody
-    public Player getPlayer(@RequestParam String name) {
-        return amfService.getPlayer(name);
+//    @ResponseBody
+    public String getPlayer(@RequestParam String name, Model model) {
+        Player player = amfService.getPlayerByName(name);
+        if(player.getGlobal() == null)
+        {
+            return "playerNotFound";
+        }
+        model.addAttribute("player", player);
+            return "player";
     }
 
     @GetMapping("/players")
@@ -112,33 +128,45 @@ public class AMFController {
         return amfService.getAllPlayers();
     }
 
-    @GetMapping("/signup")
-    public String signup(){
-
-        return "signUp";
+    @GetMapping("/notificationSignUp")
+    public String notificationSignUp(Model model){
+        Notification notification = new Notification();
+        model.addAttribute("notification", notification);
+        model.addAttribute("arenaRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS_RANKED));
+        model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
+        model.addAttribute("battleRoyaleRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE_RANKED));
+        model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
+        return "notificationSignUp";
     }
 
-    @GetMapping("/save")
-    public String saveUser(@RequestParam MultiValueMap<String, String> allParams /*@RequestParam(value = "email", required = true) String email, @RequestParam(value = "br")List<String> battleRoyaleMaps), @RequestParam(value = "ar")List<String> arenas*/){
-        //Problem: when page reloads existing data is inserted b/c still in url
-        System.out.println(allParams.get("email").toString());
-        System.out.println(allParams.get("br").toString());
-        System.out.println(allParams.get("ar").toString());
-
-        List<String> maps = new ArrayList<>();
-        for(String map : allParams.get("br")){
-            maps.add("br_" + map);
+    @PostMapping("/deleteNotification")
+    public String deleteNotificationByEmail(@RequestParam String email, Model model){
+        log.info("Deleting notifcations for: " + email);
+        try{
+            notificationSerivce.deleteNotification(email);
         }
-        for(String map : allParams.get("ar")){
-            maps.add("ar_" + map);
+        catch (Exception e){
+            //add a popup notifying there was a problem deleting the email on html page
+            return "redirect:/notificationDeletePage";
         }
-        Notification notification = new Notification();
-        notification.setEmail(allParams.get("email").get(0));
-        notification.setMaps(maps);
-
-        notificationSerivce.save(notification);
-        System.out.println(notification.toString());
-//        notificationSerivce.saveNotification(notification);
+        //not intended HTML mapping for this
+        //maybe add string to model to notify that email was deleted in html page
+        model.addAttribute("confirmationMessage", "Email successfully deleted!");
         return "confirmation";
     }
+
+    @GetMapping("/notificationDeletePage")
+    public String notificationDeletePage(){
+        return "notificationDelete";
+    }
+
+    @PostMapping("/saveNotification")
+    public String saveNotification(@ModelAttribute("notification") Notification notification, Model model){
+        System.out.println(notification.toString());
+        notificationSerivce.saveNotification(notification);
+        System.out.println(notificationSerivce.getNotification(notification.getEmail()));
+        model.addAttribute("confirmationMessage", "Signup Successful!");
+        return "confirmation";
+    }
+
 }

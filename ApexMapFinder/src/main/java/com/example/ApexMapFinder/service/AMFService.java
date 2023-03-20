@@ -4,6 +4,7 @@ import com.example.ApexMapFinder.dao.AMFSQLDAO;
 import com.example.ApexMapFinder.dao.PlayerDAO;
 import com.example.ApexMapFinder.dto.AMF;
 import com.example.ApexMapFinder.dto.Gamemode;
+import com.example.ApexMapFinder.dto.GamemodeEnum;
 import com.example.ApexMapFinder.dto.Player;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,6 +62,7 @@ public class AMFService {
         try {
             amf = mapper.readValue(jsonString, AMF.class);
         } catch (JsonProcessingException jsonProcessingException) {
+            log.warn(jsonString);
             jsonProcessingException.printStackTrace();
         }
         //DB check
@@ -104,7 +106,7 @@ public class AMFService {
         }
 
         //default image in case map image not found
-        String mapImage = "babyGtar.png";
+        String mapImage = "questionmark_1_1500x843.png";
 
         //Create a hashmap where (k) is map name and (v) is image location
         HashMap<String, String> mapImages = new HashMap<>();
@@ -118,6 +120,7 @@ public class AMFService {
         mapImages.put("Storm Point", "stormPoint.png");
         mapImages.put("Drop Off", "dropOff2.jpg");
         mapImages.put("Encore", "encore.jpg");
+        mapImages.put("Broken Moon", "broken_moon_2.webp");
 
         //loop through hashmap to find specified map in it
         for(var entry: mapImages.entrySet()){
@@ -125,11 +128,21 @@ public class AMFService {
                 mapImage = entry.getValue();
             }
         }
-        return mapImage;
+        //"images/" is directory for all images
+        return "images/" + mapImage;
     }
 
-    public Player getPlayer(String name){
-        return playerDAO.findByPlayerName(name);
+    //searches amf database and if cant find player there checks the Apex Legends API
+    //the logic is fucked since we are using player origin names for everything but they are not being saved to the database currently
+    // and have the players use steam so if someone searches a steam players name up, nothing will show
+    public Player getPlayerByName(String name){
+        Player player = playerDAO.findByPlayerName(name);
+        if(player != null){
+            return player;
+        }
+        else{
+            return apiPlayerSearch(name);
+        }
     }
 
     public List<Player>  getAllPlayers(){
@@ -138,7 +151,7 @@ public class AMFService {
 
 
     //does this method save a new player or update an existing one?
-    public Player updatePlayer(String name){
+    public Player apiPlayerSearch(String name){
 
         //Look into httpclient instead of webclient | https://www.baeldung.com/httpclient4
         String playerJson = webClient.get()
@@ -152,13 +165,19 @@ public class AMFService {
         try {
             player = mapper.readValue(playerJson, Player.class);
         } catch (JsonProcessingException jsonProcessingException) {
+            log.warn(playerJson);
             jsonProcessingException.printStackTrace();
         }
 
-        return playerDAO.savePlayer(player);
+        return player;
 
     }
 
+    public Player savePlayer(Player player){
+        return playerDAO.savePlayer(player);
+    }
+
+    //theres no way this actually works because I am limited to 1 request every 2 seconds
     public List<Player> updateAllPlayers(){
         List<Player> allPlayers = playerDAO.getAllPlayers();
 
@@ -222,15 +241,59 @@ public class AMFService {
         //adds a slight update delay in case the apex api takes a moment to update itself (rounds up to nearest 10s place)
         //increases update delay by a maximum of ten seconds; could be a problem is there is not update delay and errors occurs
 //        long roundUp = 10 - lowestTime % 10;
-        long roundUp = 3;
+        long roundUp = 7;
         log.info((String.valueOf((lowestTime + roundUp) * 100)));
 
         //(* 1000) to go to milliseconds from seconds
         return (lowestTime + roundUp) * 1000;
     }
 
+
     //used to decrement map countdown timers in service
     public void decrementCountdown(){
         endTimer.replaceAll((k, v) -> v - 1);
+    }
+
+    //Boolean State values: true - currentMap | false - nextMap
+    //Should this be returning the map as it's enum mapping or a string?
+    //-Probably enum, but enum should also be the value immediately saved
+    //to the map/gamemode values for AMF which are currently strings
+    public String getMapName(Boolean state, GamemodeEnum gamemode){
+        String map = null;
+
+        if(state){
+            switch(gamemode) {
+                case ARENAS:
+                    map = amf.getArenas().getCurrent().getMap();
+                    break;
+                case BATTLEROYALE:
+                    map = amf.getBattleRoyale().getCurrent().getMap();
+                    break;
+                case ARENAS_RANKED:
+                    map = amf.getArenasRanked().getCurrent().getMap();
+                    break;
+                case BATTLEROYALE_RANKED:
+                    map = amf.getRanked().getCurrent().getMap();
+                    break;
+            }
+
+        }
+        else {
+            switch(gamemode) {
+                case ARENAS:
+                    map = amf.getArenas().getNext().getMap();
+                    break;
+                case BATTLEROYALE:
+                    map = amf.getBattleRoyale().getNext().getMap();
+                    break;
+                case ARENAS_RANKED:
+                    map = amf.getArenasRanked().getNext().getMap();
+                    break;
+                case BATTLEROYALE_RANKED:
+                    map = amf.getRanked().getNext().getMap();
+                    break;
+            }
+        }
+        return map;
     }
 }

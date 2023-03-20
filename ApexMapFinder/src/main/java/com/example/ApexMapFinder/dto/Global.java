@@ -13,9 +13,11 @@ import javax.persistence.Id;
 public @Data
 class Global {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer globalId;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long uid;
     private String name;
+    private String originName;
     private String platform;
     private int level;
+    private int toNextLevelPercent;
 }

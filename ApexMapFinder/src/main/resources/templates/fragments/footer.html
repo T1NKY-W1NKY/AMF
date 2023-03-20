@@ -7,12 +7,18 @@
         <section class="">
           <div class="row">
             <div class="col-lg-8 col-md-6 mb-4 mb-md-0">
-              <h5 class="text-uppercase text-center">FOOTER CONTENT</h5>
+              <h5 class="text-uppercase text-center">ABOUT AMF (APEX MAP FINDER)</h5>
               <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Molestiae modi cum ipsam ad, illo possimus laborum ut
-                reiciendis obcaecati. Ducimus, quas. Corrupti, pariatur eaque?
-                Reiciendis assumenda iusto sapiente inventore animi? Molestiae modi cum ipsam ad.
+                AMF is a project designed to improve the quality of life
+                for Apex Legends players. By utilizing data from the Apex Legends API,
+                AMF provides features not directly included in the game.
+                Its main purpose is to keep players informed on the different map
+                rotations for each game mode. More features are to come so
+                stay tuned!
+<!--                Lorem ipsum dolor sit amet consectetur adipisicing elit.-->
+<!--                Molestiae modi cum ipsam ad, illo possimus laborum ut-->
+<!--                reiciendis obcaecati. Ducimus, quas. Corrupti, pariatur eaque?-->
+<!--                Reiciendis assumenda iusto sapiente inventore animi? Molestiae modi cum ipsam ad.-->
               </p>
             </div>
 
@@ -20,16 +26,13 @@
               <h5 class="text-uppercase text-center">Links</h5>
               <ul class="list-unstyled mb-0 text-center">
                 <li>
-                  <a href="#!" class="text-white">Link 1</a>
+                  <a th:href="@{/}" class="text-white">Home Page</a>
                 </li>
                 <li>
-                  <a href="#!" class="text-white">Link 2</a>
+                  <a th:href="@{/current}" class="text-white">Current Maps</a>
                 </li>
                 <li>
-                  <a href="#!" class="text-white">Link 3</a>
-                </li>
-                <li>
-                  <a href="#!" class="text-white">Link 4</a>
+                  <a th:href="@{/next}" class="text-white">Next Maps</a>
                 </li>
               </ul>
             </div>
@@ -42,10 +45,10 @@
         <!-- Section: CTA -->
         <section class="">
           <p class="d-flex justify-content-center align-items-center">
-            <span class="me-3">Map notifications:</span>
+            <span class="me-3">Sign up for our emailing list to be informed when maps enter the rotation: </span>
             <!--   Fix Button becoming completely white when hovered over    -->
             <button type="button" class="btn btn-outline-light btn-rounded">
-              <a class="text-light" th:href="@{/signup}">Sign up!</a>
+              <a class="text-light" th:href="@{/notificationSignUp}">Click here!</a>
             </button>
           </p>
         </section>
@@ -55,7 +58,7 @@
 
       </div>
       <div class="text-center p-3" style="background-color: #181a1b">
-        © 2022 Copyright: Apex Map Finder
+        © 2022-2023 Copyright: Apex Map Finder
       </div>
     </footer>
   </div>

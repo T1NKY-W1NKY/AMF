@@ -15,6 +15,7 @@ public class AMF {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer amfId;
+
     @JsonProperty("battle_royale")
     @OneToOne(cascade = {CascadeType.ALL})
     private Gamemode battleRoyale;

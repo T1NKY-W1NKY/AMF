@@ -18,4 +18,23 @@ class ApexMapFinderApplicationTests {
 
 	}
 
+	@Test
+	void whenMapsUpdate_UsersWhoMustBeEmailedAreIdentified(){
+		givenMapsUpdate();
+		whenUserNotificationsWithNewMapsAreIdentified();
+		thenAnEmailIsSentToThem();
+	}
+
+
+	private void givenMapsUpdate() {
+
+	}
+
+	private void whenUserNotificationsWithNewMapsAreIdentified() {
+
+	}
+
+	private void thenAnEmailIsSentToThem() {
+
+	}
 }
