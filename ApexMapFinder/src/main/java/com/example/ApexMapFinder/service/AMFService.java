@@ -62,10 +62,11 @@ public class AMFService {
         try {
             amf = mapper.readValue(jsonString, AMF.class);
         } catch (JsonProcessingException jsonProcessingException) {
-            log.warn(jsonString);
+            log.warn("Something went wrong:" + jsonString);
             jsonProcessingException.printStackTrace();
         }
         //DB check
+        log.info("AMF object: " + amf.toString());
         return amfDAO.updateAMF(amf);
     }
 

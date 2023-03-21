@@ -12,8 +12,8 @@ public class AMFSQLDAO {
     @Autowired
     AMFRepository amfRepository;
 
-//    gets amf object with id 4, all working amf entities from now all will be using 4 until that gets cleaned up
-//        this is b/c there should only be one amf object and 4 just happened to be first seen amf id in db
+//    gets amf object with id 1, all working amf entities from now all will be using 4 until that gets cleaned up
+//        this is b/c there should only be one amf object and 1 just happened to be first seen amf id in db
     public AMF getAMF(){
         return amfRepository.findById(1).get();
     }
