@@ -52,6 +52,7 @@ public class AMFService {
     //need case for when newAmf returns null orrrrrrrr maybe not
     @PostConstruct //runs method on startup
     public AMF updateAMF(){
+        log.info("Right before Apex API is pinged");
         ObjectMapper mapper = new ObjectMapper();
         String jsonString = webClient.get()
                 .uri("https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey)
