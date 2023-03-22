@@ -38,7 +38,6 @@ public class AMFService {
     HashMap<String, Long> endTimer = new HashMap<>();
 
 
-
     //returns amf from db
     public AMF getAMF() {
         return amfDAO.getAMF();
@@ -56,11 +55,9 @@ public class AMFService {
         log.info("Right before Apex API is pinged, using link: https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey);
         String jsonString = webClient.get()
                 .uri("https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey)
-                .exchange()
-                .block()
+                .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        log.info("right after Apex API is pinged, amf object is: " + amf.toString());
         try {
             amf = mapper.readValue(jsonString, AMF.class);
         } catch (JsonProcessingException jsonProcessingException) {
@@ -72,7 +69,7 @@ public class AMFService {
         return amfDAO.updateAMF(amf);
     }
 
-//    @PostConstruct
+    @PostConstruct
     public void setEndTimer() throws ParseException {
         endTimer.put("battleRoyale", timeToSeconds(amfDAO.getAMF().getBattleRoyale().getCurrent().getRemainingTimer()));
         endTimer.put("arenas", timeToSeconds(amfDAO.getAMF().getArenas().getCurrent().getRemainingTimer()));
