@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 
+import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
 import java.text.ParseException;
 import java.time.Instant;
@@ -50,7 +51,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
     }
 
 //    IF AMF HAS A NULL VALUE THIS IS LIKELY WHY!!!!
-//    It happens when both the local and heroku apps are running since they go to access the API at the same time. JSON response:
+//    It happens when both the local and cloud apps are running since they go to access the API at the same time. JSON response:
 //    "Error":"Slow down ! You're being throttled. You have 1 requests every 2 seconds allowed, but you're currently at 2 req/s. To upgrade your rate limit, verify your Discord account on https://portal.apexlegendsapi.com/discord-auth"
     @Override
     public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
