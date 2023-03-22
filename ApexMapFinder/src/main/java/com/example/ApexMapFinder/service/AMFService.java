@@ -52,14 +52,15 @@ public class AMFService {
     //need case for when newAmf returns null orrrrrrrr maybe not
     @PostConstruct //runs method on startup
     public AMF updateAMF(){
-        log.info("Right before Apex API is pinged");
         ObjectMapper mapper = new ObjectMapper();
+        log.info("Right before Apex API is pinged, using link: https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey);
         String jsonString = webClient.get()
                 .uri("https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey)
                 .exchange()
                 .block()
                 .bodyToMono(String.class)
                 .block();
+        log.info("right after Apex API is pinged, amf object is: " + amf.toString());
         try {
             amf = mapper.readValue(jsonString, AMF.class);
         } catch (JsonProcessingException jsonProcessingException) {
