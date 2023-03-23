@@ -52,7 +52,6 @@ public class AMFService {
     @PostConstruct //runs method on startup
     public AMF updateAMF(){
         ObjectMapper mapper = new ObjectMapper();
-        log.info("Right before Apex API is pinged, using link: https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey);
         String jsonString = webClient.get()
                 .uri("https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey)
                 .retrieve()
@@ -65,7 +64,6 @@ public class AMFService {
             jsonProcessingException.printStackTrace();
         }
         //DB check
-        log.info("AMF object: " + amf.toString());
         return amfDAO.updateAMF(amf);
     }
 
