@@ -67,7 +67,7 @@ public class AMFService {
         return amfDAO.updateAMF(amf);
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void setEndTimer() throws ParseException {
         endTimer.put("battleRoyale", timeToSeconds(amfDAO.getAMF().getBattleRoyale().getCurrent().getRemainingTimer()));
         endTimer.put("arenas", timeToSeconds(amfDAO.getAMF().getArenas().getCurrent().getRemainingTimer()));
