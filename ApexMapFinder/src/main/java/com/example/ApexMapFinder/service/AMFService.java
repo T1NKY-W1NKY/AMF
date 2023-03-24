@@ -57,9 +57,9 @@ public class AMFService {
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
-        log.info("API Json Response: " + jsonString);
         try {
             amf = mapper.readValue(jsonString, AMF.class);
+            log.info("Mapped AMF object: " + amf.toString());
         } catch (JsonProcessingException jsonProcessingException) {
             log.warn("Something went wrong:" + jsonString);
             jsonProcessingException.printStackTrace();
