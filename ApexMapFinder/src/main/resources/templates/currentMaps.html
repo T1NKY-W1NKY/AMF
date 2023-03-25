@@ -131,7 +131,7 @@
 
         // If the count down is over and its been 5 seconds (5000ms), reload page w/ new map data
         if (distance < 0) {
-          if(distance < -10000){
+          if(distance < -10000 && distance > -12000){
               location.reload();
           }
           return "Loading Map...";
