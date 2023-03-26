@@ -101,7 +101,7 @@ public class NotificationService {
             }
         }
 
-        log.info("Next gamemodes to change: " + nextMaps.keySet().toString() + " | Maps to notify users on: " + nextMapEnums.toString());
+        log.info("Next gamemodes to change: " + nextMaps.keySet().toString() + " | Next maps to change: " + nextMapEnums.toString());
 
         Multimap<String, MapEnum> notificationMutliMap = ArrayListMultimap.create();
         //checks all users to see if they want to be notified on new maps
