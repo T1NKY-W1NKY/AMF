@@ -85,7 +85,6 @@ public class NotificationService {
     public void sendMapChangeEmail() throws MessagingException {
         List<MapEnum> nextMapEnums = new ArrayList<>();
         Map<GamemodeEnum, String> nextMaps = getNextMapsToChange();
-        log.info(nextMaps.toString());
 
         //Converts all new maps from strings to their enums
         //Not great implementaion because it iterates through every gamemode and map
@@ -101,7 +100,8 @@ public class NotificationService {
                }
             }
         }
-        log.info(nextMapEnums.toString());
+
+        log.info("Next gamemodes to change: " + nextMaps.keySet().toString() + " | Maps to notify users on: " + nextMapEnums.toString());
 
         Multimap<String, MapEnum> notificationMutliMap = ArrayListMultimap.create();
         //checks all users to see if they want to be notified on new maps
@@ -114,6 +114,7 @@ public class NotificationService {
                 }
             }
         }
+
         for(String email : notificationMutliMap.keySet()){
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("apexmapfinder@gmail.com");
