@@ -60,7 +60,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                 new Runnable() {
                     @Override
                     public void run() {
-                        log.info("\nAttempting to update AMF...");
+                        log.info("Attempting to update AMF...");
                         amfService.updateAMF();
 
                         //updates timer countdown data
@@ -92,7 +92,7 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                         }
 
                         Instant nextExecutionTime = Instant.ofEpochMilli(epochTime);
-                        log.info("Next Execution (GET request to API): " + (Date.from(nextExecutionTime)) + " | " + epochTime + "\n");
+                        log.info("Next Execution (GET request to API): " + (Date.from(nextExecutionTime)) + " | " + epochTime + System.lineSeparator());
 
                         return Date.from(nextExecutionTime);
                     }

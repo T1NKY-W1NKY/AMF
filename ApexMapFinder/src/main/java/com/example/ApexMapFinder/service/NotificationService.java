@@ -50,10 +50,12 @@ public class NotificationService {
     //For use in sending out notifications to notify players of map changes.
     public Map<GamemodeEnum, String> getNextMapsToChange(){
 
+        log.info("Finding maps with lowest time to update...");
         List<String> nextGamemodesToUpdate = new ArrayList<>();
         Map<GamemodeEnum, String> nextMapsToUpdate = new HashMap();
-        HashMap<String, Long> mapTimes = amfService.getEndTimer();
-        List<Long> times = new ArrayList<>(mapTimes.values());
+        HashMap<String, Long> gamemodeTimes = amfService.getEndTimer();
+        log.info("Map times: " +  gamemodeTimes.toString());
+        List<Long> times = new ArrayList<>( gamemodeTimes.values());
         long lowestTime = times.get(0);
         int index = 0;
         for (int i = 1; i < times.size(); i++) {
@@ -61,22 +63,25 @@ public class NotificationService {
                 lowestTime = times.get(i);
             }
         }
+        log.info("Lowest time: " + lowestTime);
 
 
-
-        //Finds the maps with the lowest times
-        //which are the next maps to be updated
+        //Finds the gamemods with the lowest update times
         long finalLowestTime = lowestTime;
-        mapTimes.forEach((k, v) ->
-        {
-            if(v.equals(finalLowestTime)){
-                nextGamemodesToUpdate.add(k);
-            }
-        });
+         gamemodeTimes.forEach((gamemode, time) ->
+            {
+                if(time.equals(finalLowestTime)){
+                    nextGamemodesToUpdate.add(gamemode);
+                }
+            });
+         log.info("Gamemodes to next be updated: " + nextGamemodesToUpdate.toString());
 
+         //Finds the maps with the lowest update times
         for(String gamemode : nextGamemodesToUpdate){
             nextMapsToUpdate.put(GamemodeEnum.findByName(gamemode), amfService.getMapName(Boolean.FALSE, GamemodeEnum.findByName(gamemode)));
         }
+        log.info("Maps to be next updated: " + nextMapsToUpdate.values());
+        log.info("Exiting getNextMapsToChange()...");
 
         return nextMapsToUpdate;
     }
@@ -84,6 +89,7 @@ public class NotificationService {
     //Could probably clean this up with Streams
     public void sendMapChangeEmail() throws MessagingException {
         List<MapEnum> nextMapEnums = new ArrayList<>();
+        log.info("Entering getNextMapsToChange()...");
         Map<GamemodeEnum, String> nextMaps = getNextMapsToChange();
 
         //Converts all new maps from strings to their enums
@@ -103,8 +109,8 @@ public class NotificationService {
 
         log.info("Next gamemodes to change: " + nextMaps.keySet().toString() + " | Next maps to change: " + nextMapEnums.toString());
 
+        //checks all users to see if the maps they wish to be notified on are the next maps to be changed
         Multimap<String, MapEnum> notificationMutliMap = ArrayListMultimap.create();
-        //checks all users to see if they want to be notified on new maps
         for(Notification user : notifications){
             for(MapEnum userMap : user.getGameMaps()){
                 for(MapEnum map : nextMapEnums){
@@ -115,6 +121,7 @@ public class NotificationService {
             }
         }
 
+        //Sends an email to users who have chosen to be notified on the next maps to be changed
         for(String email : notificationMutliMap.keySet()){
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom("apexmapfinder@gmail.com");
