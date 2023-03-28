@@ -1,6 +1,7 @@
 package com.example.ApexMapFinder.service;
 
 import com.example.ApexMapFinder.dao.NotificationDAO;
+import com.example.ApexMapFinder.dto.Gamemode;
 import com.example.ApexMapFinder.dto.GamemodeEnum;
 import com.example.ApexMapFinder.dto.MapEnum;
 import com.example.ApexMapFinder.dto.Notification;
@@ -25,6 +26,8 @@ public class NotificationService {
     private AMFService amfService;
     @Autowired
     private JavaMailSender javaMailSender;
+    private final boolean CURRENT_MAP = true;
+    private final boolean NEXT_MAP = false;
     private static final Logger log = LoggerFactory.getLogger(AMFService.class);
 
     public void saveNotification(Notification notification) {
@@ -78,7 +81,8 @@ public class NotificationService {
 
          //Finds the maps with the lowest update times
         for(String gamemode : nextGamemodesToUpdate){
-            nextMapsToUpdate.put(GamemodeEnum.findByName(gamemode), amfService.getMapName(Boolean.FALSE, GamemodeEnum.findByName(gamemode)));
+            GamemodeEnum gamemodeEnum = GamemodeEnum.findByName(gamemode);
+            nextMapsToUpdate.put((gamemodeEnum), amfService.getMapName(NEXT_MAP, gamemodeEnum));
         }
         log.info("Maps to be next updated: " + nextMapsToUpdate.values());
         log.info("Exiting getNextMapsToChange()...");
