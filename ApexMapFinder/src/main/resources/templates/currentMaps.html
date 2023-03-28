@@ -129,7 +129,7 @@
         // Find the distance between now and the count down date
         var distance = countdownDate - now;
 
-        // If the count down is over and its been 5 seconds (5000ms), reload page w/ new map data
+        // If the count down is over and its between 10 and 12 seconds, reload page w/ new map data
         if (distance < 0) {
 <!--        Window reload is hacky, ultimately should be asynchronous data refreshing-->
           var blurred = false;
