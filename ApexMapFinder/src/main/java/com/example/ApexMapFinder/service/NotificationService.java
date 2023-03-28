@@ -62,7 +62,7 @@ public class NotificationService {
         long lowestTime = times.get(0);
         int index = 0;
         for (int i = 1; i < times.size(); i++) {
-            if (times.get(i) < lowestTime) {
+            if (times.get(i) > lowestTime) {
                 lowestTime = times.get(i);
             }
         }
