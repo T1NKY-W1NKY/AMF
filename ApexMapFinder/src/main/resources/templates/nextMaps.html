@@ -133,11 +133,8 @@
         // If the count down is over and its between 10 and 12 seconds, reload page w/ new map data
         if (distance < 0) {
 <!--        Window reload is hacky, ultimately should be asynchronous data refreshing-->
-          var blurred = false;
-          window.onblur = function() { blurred = true; };
-          window.onfocus = function() { blurred && (location.reload()); };
-          if(distance < -10000 && distance > -12000){
-              location.reload();
+          if(distance < -10000){
+              location.reload();r
           }
           return "Loading Map...";
         }
