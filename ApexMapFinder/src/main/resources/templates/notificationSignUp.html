@@ -100,6 +100,7 @@
                 <div class="col-6 bg-dark rounded-bottom justify-content-center text-center mb-2">
                     <h4 class="text-light fw-bold mt-2">Enter your email:
                         <input type="email" th:field="*{email}" />
+                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"> Email error</span>
                     </h4>
                 </div>
                 <div class="col-2 justify-content-center text-left mt-1">
@@ -107,11 +108,40 @@
                 </div>
 <!--                Consider a modal box instead of redirect for email deletion-->
                 <div class="col-3 justify-content-center mt-3">
-                    <a class="text-light" th:href="@{/notificationDeletePage}">Looking to remove your email?</a>
+<!--                    <a class="text-light" th:href="@{/notificationDeletePage}">Looking to remove your email?</a>-->
+<!--                    Button trigger modal-->
+                    <button type="button" class="btn btn-link text-light" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Looking to remove you email?
+                    </button>
                 </div>
             </div>
 
         </form>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <div class="mb-3">
+                    <form method="POST" action="#" th:action="@{/deleteNotification}">
+
+                        <label for="email" class="col-form-label"><h3>Enter email to be deleted:</h3></label>
+                        <input type="email" name="email" class="form-control" style="display: inline; width: 75%; border-radius: 4.25rem;" th:value="${email}" id="email"/>
+                        <button type="submit"  id="submit-email" class="hidden" style="display: none;"></button>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <!-- <button type="submit" class="btn btn-danger">Delete Email</button> -->
+                <label for="submit-email" class="btn btn-danger" tabindex="0">Delete Email</label>
+            </div>
+        </div>
     </div>
 </div>
 

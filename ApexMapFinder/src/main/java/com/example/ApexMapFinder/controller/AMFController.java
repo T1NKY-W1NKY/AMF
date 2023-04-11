@@ -9,8 +9,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 //not @RestController b/c then getGreeting would return String "greeting"
@@ -147,7 +149,7 @@ public class AMFController {
         }
         catch (Exception e){
             //add a popup notifying there was a problem deleting the email on html page
-            return "redirect:/notificationDeletePage";
+            return "redirect:/notificationSignUp";
         }
         //not intended HTML mapping for this
         //maybe add string to model to notify that email was deleted in html page
@@ -161,8 +163,11 @@ public class AMFController {
     }
 
     @PostMapping("/saveNotification")
-    public String saveNotification(@ModelAttribute("notification") Notification notification, Model model){
+    public String saveNotification(@Valid @ModelAttribute("notification") Notification notification, Model model, BindingResult bindingResult){
         System.out.println(notification.toString());
+        if (bindingResult.hasErrors()){
+            return "notification";
+        }
         notificationSerivce.saveNotification(notification);
         System.out.println(notificationSerivce.getNotification(notification.getEmail()));
         model.addAttribute("confirmationMessage", "Signup Successful!");
