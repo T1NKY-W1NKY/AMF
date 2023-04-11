@@ -20,7 +20,7 @@ public class Notification {
 
     //makes email need to be unique, not best solution; i dont think
     @Column(unique = true)
-    @NotBlank(message = "Name may not be blank")
+    @NotBlank
 //    @Email
     String email;
 
@@ -30,7 +30,7 @@ public class Notification {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "gameMaps", joinColumns = @JoinColumn(name = "notification_id"))
     @Enumerated(EnumType.STRING)
-    @NotEmpty(message = "You must select at least 1 map")
+    @NotEmpty
     List<MapEnum> gameMaps;
 //    @ElementCollection
 //    List<GameMap> gameMaps;

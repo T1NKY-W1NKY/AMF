@@ -34,6 +34,16 @@ public class NotificationService {
         notificationDAO.save(notification);
     }
 
+    public boolean emailExists(String email){
+        List<Notification> notifications = notificationDAO.getAllNotifications();
+        for(Notification notification : notifications){
+            if(notification.getEmail().equals(email)){
+               return true;
+            }
+        }
+        return false;
+    }
+
     public List<Notification> getAllNotifications(){
         return notificationDAO.getAllNotifications();
     }
