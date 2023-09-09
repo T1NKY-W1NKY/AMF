@@ -52,7 +52,6 @@ public class AMFService {
     @PostConstruct //runs method on startup
     public AMF updateAMF(){
         ObjectMapper mapper = new ObjectMapper();
-        log.info("Right before Apex API is pinged, using link: https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey);
         String jsonString = webClient.get()
                 .uri("https://api.mozambiquehe.re/maprotation?version=5&auth=" + apiKey)
                 .retrieve()
@@ -60,12 +59,12 @@ public class AMFService {
                 .block();
         try {
             amf = mapper.readValue(jsonString, AMF.class);
+            log.info("Mapped AMF object: " + amf.toString());
         } catch (JsonProcessingException jsonProcessingException) {
             log.warn("Something went wrong:" + jsonString);
             jsonProcessingException.printStackTrace();
         }
         //DB check
-        log.info("AMF object: " + amf.toString());
         return amfDAO.updateAMF(amf);
     }
 
@@ -225,6 +224,7 @@ public class AMFService {
         for (int i = 0; i < remainingTimes.size(); i++) {
             timeInSeconds.add(timeToSeconds(remainingTimes.get(i)));
         }
+        log.info("Current list of map timers: " + String.valueOf(timeInSeconds));
         return timeInSeconds;
     }
 
@@ -236,13 +236,14 @@ public class AMFService {
                 lowestTime = timeInSeconds.get(i);
             }
         }
-        log.info(String.valueOf(timeInSeconds));
 
         //adds a slight update delay in case the apex api takes a moment to update itself (rounds up to nearest 10s place)
         //increases update delay by a maximum of ten seconds; could be a problem is there is not update delay and errors occurs
 //        long roundUp = 10 - lowestTime % 10;
         long roundUp = 7;
-        log.info((String.valueOf((lowestTime + roundUp) * 100)));
+        long logMinutes = (lowestTime + roundUp) / 60;
+        long logSeconds = (lowestTime + roundUp) % 60;
+        log.info("Next scheduled poll to API in: " + logMinutes + "m " + logSeconds + "s");
 
         //(* 1000) to go to milliseconds from seconds
         return (lowestTime + roundUp) * 1000;

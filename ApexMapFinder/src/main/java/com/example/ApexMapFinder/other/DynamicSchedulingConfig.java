@@ -60,9 +60,8 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                 new Runnable() {
                     @Override
                     public void run() {
-                        log.info("Attempting to update AMF...\n");
+                        log.info("Attempting to update AMF...");
                         amfService.updateAMF();
-                        log.info("Updated AMF: " + amfService.getAMF().toString());
 
                         //updates timer countdown data
                         try {
@@ -84,15 +83,16 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
                             //commented out for now so I dont' get email
                                 //uncomment to resume emailing feature
                                 //catch is commented too
+                            log.info("Initiating Notification Service...");
                             notificationService.sendMapChangeEmail();
-                        } catch (ParseException e) {
+                            log.info("Notification Service Finished.");
+                        } catch (ParseException | MessagingException e) {
+                            log.warn("Something went wrong while getting map times or in the notification service: ");
                             e.printStackTrace();
                         }
-                        catch (MessagingException e) {
-                            throw new RuntimeException(e);
-                        }
+
                         Instant nextExecutionTime = Instant.ofEpochMilli(epochTime);
-                        log.info("Next Execution: " + (Date.from(nextExecutionTime)) + " | " + epochTime);
+                        log.info("Next Execution (GET request to API): " + (Date.from(nextExecutionTime)) + " | " + epochTime + System.lineSeparator());
 
                         return Date.from(nextExecutionTime);
                     }

@@ -4,6 +4,9 @@ import lombok.Data;
 import org.jetbrains.annotations.NotNull;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +20,8 @@ public class Notification {
 
     //makes email need to be unique, not best solution; i dont think
     @Column(unique = true)
+    @NotBlank
+//    @Email
     String email;
 
 //    @Enumerated
@@ -25,6 +30,7 @@ public class Notification {
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "gameMaps", joinColumns = @JoinColumn(name = "notification_id"))
     @Enumerated(EnumType.STRING)
+    @NotEmpty
     List<MapEnum> gameMaps;
 //    @ElementCollection
 //    List<GameMap> gameMaps;

@@ -4,13 +4,16 @@ import com.example.ApexMapFinder.dto.*;
 import com.example.ApexMapFinder.other.DynamicSchedulingConfig;
 import com.example.ApexMapFinder.service.AMFService;
 import com.example.ApexMapFinder.service.NotificationService;
+import org.aspectj.weaver.ast.Not;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 //not @RestController b/c then getGreeting would return String "greeting"
@@ -21,6 +24,7 @@ public class AMFController {
     private AMFService amfService;
     @Autowired
     private NotificationService notificationSerivce;
+    Notification notification = new Notification();
 
     private static final Logger log = LoggerFactory.getLogger(DynamicSchedulingConfig.class);
 
@@ -130,7 +134,6 @@ public class AMFController {
 
     @GetMapping("/notificationSignUp")
     public String notificationSignUp(Model model){
-        Notification notification = new Notification();
         model.addAttribute("notification", notification);
         model.addAttribute("arenaRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS_RANKED));
         model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
@@ -141,18 +144,24 @@ public class AMFController {
 
     @PostMapping("/deleteNotification")
     public String deleteNotificationByEmail(@RequestParam String email, Model model){
-        log.info("Deleting notifcations for: " + email);
+
+        boolean emailExists = notificationSerivce.emailExists(email);
+        log.info("Deleting notifcations for: " + email + " | " + emailExists);
+        model.addAttribute("notification", notification);
+        model.addAttribute("arenaRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS_RANKED));
+        model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
+        model.addAttribute("battleRoyaleRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE_RANKED));
+        model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
         try{
             notificationSerivce.deleteNotification(email);
         }
         catch (Exception e){
-            //add a popup notifying there was a problem deleting the email on html page
-            return "redirect:/notificationDeletePage";
+            model.addAttribute("emailNotExists", !emailExists);
+            return "notificationSignUp";
         }
-        //not intended HTML mapping for this
-        //maybe add string to model to notify that email was deleted in html page
-        model.addAttribute("confirmationMessage", "Email successfully deleted!");
-        return "confirmation";
+
+        model.addAttribute("deleteSuccess", true);
+        return "notificationSignUp";
     }
 
     @GetMapping("/notificationDeletePage")
@@ -161,12 +170,25 @@ public class AMFController {
     }
 
     @PostMapping("/saveNotification")
-    public String saveNotification(@ModelAttribute("notification") Notification notification, Model model){
+    public String saveNotification(@Valid @ModelAttribute("notification") Notification notification, BindingResult bindingResult, Model model){
+        boolean emailExists = notificationSerivce.emailExists(notification.getEmail());
+        model.addAttribute("notification", notification);
+        model.addAttribute("arenaRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS_RANKED));
+        model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
+        model.addAttribute("battleRoyaleRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE_RANKED));
+        model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
+
+        if (bindingResult.hasErrors() || emailExists){
+            model.addAttribute("emailExists", emailExists);
+            return "notificationSignUp";
+        }
         System.out.println(notification.toString());
+
         notificationSerivce.saveNotification(notification);
+
         System.out.println(notificationSerivce.getNotification(notification.getEmail()));
-        model.addAttribute("confirmationMessage", "Signup Successful!");
-        return "confirmation";
+        model.addAttribute("signupSuccess", true);
+        return "notificationSignUp";
     }
 
 }

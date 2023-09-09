@@ -8,7 +8,7 @@ public enum GamemodeEnum {
 
     BATTLEROYALE ("battleRoyale"),
     ARENAS ("arenas"),
-    BATTLEROYALE_RANKED ("ranked"),
+    BATTLEROYALE_RANKED ("battleRoyaleRanked"),
     ARENAS_RANKED ("arenasRanked");
 
     private String name;
