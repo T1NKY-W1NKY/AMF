@@ -37,4 +37,5 @@ class ApexMapFinderApplicationTests {
 	private void thenAnEmailIsSentToThem() {
 
 	}
+
 }
