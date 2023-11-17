@@ -2,6 +2,7 @@ package com.example.ApexMapFinder.dto;
 
 import lombok.Data;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -23,6 +24,8 @@ public class Notification {
     @NotBlank
 //    @Email
     String email;
+
+    Boolean isValid;
 
 //    @Enumerated
 //    @ElementCollection(targetClass = MapEnum.class)

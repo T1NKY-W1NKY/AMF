@@ -182,6 +182,9 @@ public class AMFController {
             model.addAttribute("emailExists", emailExists);
             return "notificationSignUp";
         }
+
+        //Email must be validated, therefore set to false initially
+        notification.setIsValid(false);
         System.out.println(notification.toString());
 
         notificationSerivce.saveNotification(notification);
