@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -210,22 +211,22 @@ public class AMFController {
     }
 
     @GetMapping("/registrationConfirmation")
-    public String confirmRegistration(@RequestParam String token, Model model){
+    public String confirmRegistration(@RequestParam String token, Model model, RedirectAttributes redirAttrs){
 
         //Fix redirects if something went wrong
         String message = "error";
 
         VerificationToken verificationToken = notificationService.getVerificationToken(token);
         if (verificationToken == null) {
-            model.addAttribute("message", message);
-            return "redirect:/badUser.html";
+            redirAttrs.addFlashAttribute("errorMessage", "bad verification token");
+            return "redirect:/error";
         }
 
         Notification notification = verificationToken.getNotification();
         Calendar cal = Calendar.getInstance();
         if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
-            model.addAttribute("message", message);
-            return "redirect:/badUser.html";
+            redirAttrs.addFlashAttribute("errorMessage", "verification expired please resubmit your email");
+            return "redirect:/error";
         }
 
         notification.setEnabled(true);
