@@ -1,20 +1,23 @@
 package com.example.ApexMapFinder.service;
 
 import com.example.ApexMapFinder.dao.NotificationDAO;
-import com.example.ApexMapFinder.dto.Gamemode;
-import com.example.ApexMapFinder.dto.GamemodeEnum;
-import com.example.ApexMapFinder.dto.MapEnum;
-import com.example.ApexMapFinder.dto.Notification;
+import com.example.ApexMapFinder.dao.VerificationTokenDAO;
+import com.example.ApexMapFinder.dto.*;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Multimap;
+import org.checkerframework.checker.units.qual.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.annotation.PostConstruct;
 import javax.mail.MessagingException;
+import javax.servlet.ServletContext;
 import java.util.*;
 
 @Service
@@ -23,16 +26,40 @@ public class NotificationService {
     @Autowired
     private NotificationDAO notificationDAO;
     @Autowired
+    private VerificationTokenDAO verificationTokenDAO;
+    @Autowired
     private AMFService amfService;
+
+    @Autowired
+    private ServletContext servletContext;
+
     @Autowired
     private JavaMailSender javaMailSender;
+
+    @Value("${BASE_URL}")
+    String baseUrl;
+
     private final boolean CURRENT_MAP = true;
     private final boolean NEXT_MAP = false;
     private static final Logger log = LoggerFactory.getLogger(AMFService.class);
 
     public void saveNotification(Notification notification) {
-        notificationDAO.save(notification);
+
+        notification = notificationDAO.save(notification);
+        VerificationToken verificationToken = createVerificationToken(notification);
+        //Do this next -v- send a link to users email with link to a confirmation endpoint that redirects to a success page or something
+        sendConfirmationEmail(notification.getEmail(), verificationToken.getToken());
     }
+
+    public VerificationToken createVerificationToken(Notification notification){
+        VerificationToken verificationToken = new VerificationToken(notification);
+        return verificationTokenDAO.saveVerificationToken(verificationToken);
+    }
+
+    public VerificationToken getVerificationToken(String token){
+        return verificationTokenDAO.getVerificationToken(token);
+    }
+
 
     public boolean emailExists(String email){
         List<Notification> notifications = notificationDAO.getAllNotifications();
@@ -52,11 +79,23 @@ public class NotificationService {
         return notificationDAO.getNotificationByEmail(email);
     }
 
+    public List<Notification> getUnverifiedNotifications(){
+        return notificationDAO.getUnverifiedNotifications();
+    }
+
     public void updateNotification(Notification newNotification){
     }
 
     public void deleteNotification(String email){
         notificationDAO.delete(email);
+    }
+
+    @PostConstruct
+    public void deleteUnverifiedNotifications(){
+        List<Notification> unverifiedNotifications = getUnverifiedNotifications();
+        for(Notification user : unverifiedNotifications){
+            deleteNotification(user.getEmail());
+        }
     }
 
     //Find next maps that will update with api call.
@@ -128,7 +167,7 @@ public class NotificationService {
         for(Notification user : notifications){
             for(MapEnum userMap : user.getGameMaps()){
                 for(MapEnum map : nextMapEnums){
-                    if(userMap == map){
+                    if(userMap == map && user.getEnabled()){
                         notificationMutliMap.put(user.getEmail(), map);
                     }
                 }
@@ -156,5 +195,20 @@ public class NotificationService {
         }
 
     }
+
+    //sends a confirmation email when a new notification obj is created
+    public void sendConfirmationEmail(String email, String token){
+
+
+        //Get a confirm link somehow
+        String confirmationLink = baseUrl + "/registrationConfirmation?token=" + token;/*Somehow get base URL and put it here*/
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom("apexmapfinder@gmail.com");
+        message.setTo(email);
+        message.setSubject("Email Confirmation");
+        message.setText("Please confirm your email here: " + confirmationLink /*Text if email was not sent to right address*/);
+        javaMailSender.send(message);
+    }
+
 
 }

@@ -64,6 +64,7 @@ public class AMFService {
             log.warn("Something went wrong:" + jsonString);
             jsonProcessingException.printStackTrace();
         }
+
         //DB check
         return amfDAO.updateAMF(amf);
     }

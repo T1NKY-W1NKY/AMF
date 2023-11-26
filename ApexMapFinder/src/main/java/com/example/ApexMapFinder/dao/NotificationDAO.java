@@ -13,8 +13,14 @@ public class NotificationDAO {
     @Autowired
     NotificationRepository notificationRepository;
 
+    @Autowired
+    VerificationTokenDAO verificationTokenDAO;
+
     public Notification getNotificationByEmail(String email){
         return notificationRepository.findByEmail(email);
+    }
+
+    public Notification getNotificationById(int id){return notificationRepository.findById(id);
     }
 
     public List<Notification> getAllNotifications(){
@@ -26,11 +32,12 @@ public class NotificationDAO {
         return notifications;
     }
 
-    public void save(Notification notification){
-        notificationRepository.save(notification);
+    public Notification save(Notification notification){
+        return notificationRepository.save(notification);
     }
 
     public void delete(String email){
+//        verificationTokenDAO.delete(getNotificationByEmail(email).getId());
         notificationRepository.delete(getNotificationByEmail(email));
     }
 
@@ -38,5 +45,16 @@ public class NotificationDAO {
         return notificationRepository.existsByEmail(email);
     }
 
+    public List<Notification> getUnverifiedNotifications(){
+        List<Notification> unverifiedNotifications = new ArrayList<>();
+        Iterable<Notification> notifications = notificationRepository.findAll();
+        for(Notification notification : notifications){
+            if(!notification.getEnabled()){
+                unverifiedNotifications.add(notification);
+            }
+        }
+        return unverifiedNotifications;
+
+    }
 }
 

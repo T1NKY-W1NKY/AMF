@@ -1,6 +1,7 @@
 package com.example.ApexMapFinder.dto;
 
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -25,7 +26,7 @@ public class Notification {
 //    @Email
     String email;
 
-    Boolean isValid;
+    Boolean enabled;
 
 //    @Enumerated
 //    @ElementCollection(targetClass = MapEnum.class)
@@ -34,12 +35,16 @@ public class Notification {
     @CollectionTable(name = "gameMaps", joinColumns = @JoinColumn(name = "notification_id"))
     @Enumerated(EnumType.STRING)
     @NotEmpty
+    @Cascade(org.hibernate.annotations.CascadeType.REMOVE)
     List<MapEnum> gameMaps;
 //    @ElementCollection
 //    List<GameMap> gameMaps;
 
     public Notification(){
 
+        //Makes false default value
+        super();
+        this.enabled = false;
     }
 //    @ElementCollection
 //    List<String> gamemodes;

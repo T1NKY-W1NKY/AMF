@@ -4,26 +4,33 @@ import com.example.ApexMapFinder.dto.*;
 import com.example.ApexMapFinder.other.DynamicSchedulingConfig;
 import com.example.ApexMapFinder.service.AMFService;
 import com.example.ApexMapFinder.service.NotificationService;
-import org.aspectj.weaver.ast.Not;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 //not @RestController b/c then getGreeting would return String "greeting"
 @Controller
 public class AMFController {
 
     @Autowired
+    ApplicationEventPublisher eventPublisher;
+
+    @Autowired
     private AMFService amfService;
     @Autowired
-    private NotificationService notificationSerivce;
+    private NotificationService notificationService;
     Notification notification = new Notification();
 
     private static final Logger log = LoggerFactory.getLogger(DynamicSchedulingConfig.class);
@@ -145,7 +152,7 @@ public class AMFController {
     @PostMapping("/deleteNotification")
     public String deleteNotificationByEmail(@RequestParam String email, Model model){
 
-        boolean emailExists = notificationSerivce.emailExists(email);
+        boolean emailExists = notificationService.emailExists(email);
         log.info("Deleting notifcations for: " + email + " | " + emailExists);
         model.addAttribute("notification", notification);
         model.addAttribute("arenaRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS_RANKED));
@@ -153,7 +160,7 @@ public class AMFController {
         model.addAttribute("battleRoyaleRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE_RANKED));
         model.addAttribute("battleRoyaleMaps", MapEnum.getGamemodeMaps(GamemodeEnum.BATTLEROYALE));
         try{
-            notificationSerivce.deleteNotification(email);
+            notificationService.deleteNotification(email);
         }
         catch (Exception e){
             model.addAttribute("emailNotExists", !emailExists);
@@ -171,7 +178,7 @@ public class AMFController {
 
     @PostMapping("/saveNotification")
     public String saveNotification(@Valid @ModelAttribute("notification") Notification notification, BindingResult bindingResult, Model model){
-        boolean emailExists = notificationSerivce.emailExists(notification.getEmail());
+        boolean emailExists = notificationService.emailExists(notification.getEmail());
         model.addAttribute("notification", notification);
         model.addAttribute("arenaRankedMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS_RANKED));
         model.addAttribute("arenaMaps", MapEnum.getGamemodeMaps(GamemodeEnum.ARENAS));
@@ -183,15 +190,55 @@ public class AMFController {
             return "notificationSignUp";
         }
 
-        //Email must be validated, therefore set to false initially
-        notification.setIsValid(false);
-        System.out.println(notification.toString());
+        //I couldn't give a clear answer why I have this try catch here and the if statement above to catch any problems..
+        //I do not 100% understand what I am doing.. following this guide: https://www.baeldung.com/registration-verify-user-by-email#1-using-a-spring-event-to-create-the-token-and-send-the-verification-email
+        try {
+            System.out.println(notification.toString());
+            notificationService.saveNotification(notification);
+            System.out.println(notificationService.getNotification(notification.getEmail()));
+        }
+        //catch kindve redundant to if statement above.
+        //adding because it is part of the guide i'm following
+        catch (Exception e){
+            model.addAttribute("emailExists", emailExists);
+            return "notificationSignUp";
+        }
 
-        notificationSerivce.saveNotification(notification);
 
-        System.out.println(notificationSerivce.getNotification(notification.getEmail()));
         model.addAttribute("signupSuccess", true);
         return "notificationSignUp";
+    }
+
+    @GetMapping("/registrationConfirmation")
+    public String confirmRegistration(@RequestParam String token, Model model){
+
+        //Fix redirects if something went wrong
+        String message = "error";
+
+        VerificationToken verificationToken = notificationService.getVerificationToken(token);
+        if (verificationToken == null) {
+            model.addAttribute("message", message);
+            return "redirect:/badUser.html";
+        }
+
+        Notification notification = verificationToken.getNotification();
+        Calendar cal = Calendar.getInstance();
+        if ((verificationToken.getExpiryDate().getTime() - cal.getTime().getTime()) <= 0) {
+            model.addAttribute("message", message);
+            return "redirect:/badUser.html";
+        }
+
+        notification.setEnabled(true);
+        //really updating notification now that they are confirmed
+        notificationService.saveNotification(notification);
+        return "redirect:/confirmation";
+    }
+
+    @GetMapping("/confirmation")
+    public String confirmation(Model model){
+
+        model.addAttribute("confirmationMessage", "-email successfully validated-");
+        return "confirmation";
     }
 
 }

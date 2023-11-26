@@ -20,6 +20,7 @@ import javax.mail.MessagingException;
 import java.text.ParseException;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -37,6 +38,15 @@ public class DynamicSchedulingConfig implements SchedulingConfigurer {
 //    @Scheduled(cron = "0 0 * * * ?")
 //    public void scheduledDailyPlayerUpdates(){
 //        amfService.updateAllPlayers();
+//    }
+
+    //Should be uncommented in production i think
+//    @Scheduled(cron = "0 0 * * * ?")
+//    public void deleteUnverifiedNotifications(){
+//        List<Notification> unverifiedNotifications = notificationService.getUnverifiedNotifications();
+//        for(Notification user : unverifiedNotifications){
+//            notificationService.deleteNotification(user.getEmail());
+//        }
 //    }
 
     //method to create active countdown timer for maps
